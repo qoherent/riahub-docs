@@ -1,0 +1,34 @@
+---
+title: RIA Hub Documentation
+description: Guides and reference material for using the RIA Hub platform.
+template: splash
+hero:
+  tagline: How-to guides, reference, and onboarding material for the RIA Hub platform.
+  actions:
+    - text: Get Started
+      link: /guides/introduction/
+      icon: right-arrow
+    - text: Visit RIA Hub
+      link: https://riahub.ai
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Explore the docs
+
+<CardGrid stagger>
+	<Card title="Getting Started" icon="rocket">
+		New to RIA Hub? Start with the [introduction](/guides/introduction/).
+	</Card>
+	<Card title="Guides" icon="open-book">
+		How-to articles for common platform workflows.
+	</Card>
+	<Card title="Reference" icon="document">
+		Detailed reference for platform features and APIs.
+	</Card>
+	<Card title="Contribute" icon="pencil">
+		These docs live in the [riahub-docs](https://github.com/qoherent/riahub-docs) repo — PRs welcome.
+	</Card>
+</CardGrid>
