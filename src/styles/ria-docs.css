@@ -85,6 +85,11 @@ summary:focus-visible,
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 	gap: 1rem;
+	align-items: stretch;
+}
+
+.ria-grid > * {
+	margin-top: 0 !important;
 }
 
 .ria-panel,
