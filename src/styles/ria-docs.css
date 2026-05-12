@@ -1,0 +1,236 @@
+:root {
+	--ria-primary: #3b82f6;
+	--ria-primary-high: #60a5fa;
+	--ria-secondary: #2dd4bf;
+	--ria-tertiary: #f472b6;
+	--ria-warning: #facc15;
+	--ria-success: #22c55e;
+	--ria-danger: #fb7185;
+	--ria-neutral-bg: #070b12;
+	--ria-neutral-panel: #0d1522;
+	--ria-neutral-surface: #121c2b;
+	--ria-neutral-surface-raised: #182438;
+	--ria-border-subtle: #263449;
+	--ria-border-strong: #3a4b66;
+	--ria-text-primary: #f8fafc;
+	--ria-text-secondary: #b7c3d4;
+	--ria-text-muted: #7c8ba1;
+	--ria-code-bg: #08111f;
+	--ria-shadow-panel: 0 18px 44px rgba(3, 7, 14, 0.42);
+	--ria-shadow-panel-hover: 0 24px 56px rgba(2, 6, 12, 0.52);
+	--ria-glow-primary: rgba(96, 165, 250, 0.2);
+	--ria-glow-signal: rgba(45, 212, 191, 0.18);
+	--ria-glow-model: rgba(244, 114, 182, 0.16);
+	--sl-color-bg: var(--ria-neutral-bg);
+	--sl-color-bg-nav: rgba(7, 11, 18, 0.92);
+	--sl-color-bg-sidebar: var(--ria-neutral-bg);
+	--sl-color-bg-inline-code: var(--ria-code-bg);
+	--sl-color-hairline: var(--ria-border-subtle);
+	--sl-color-hairline-light: var(--ria-border-strong);
+	--sl-color-text: var(--ria-text-primary);
+	--sl-color-text-accent: var(--ria-primary-high);
+	--sl-color-text-invert: #06101f;
+	--sl-color-gray-1: var(--ria-text-primary);
+	--sl-color-gray-2: var(--ria-text-secondary);
+	--sl-color-gray-3: #94a3b8;
+	--sl-color-gray-4: var(--ria-text-muted);
+	--sl-color-gray-5: var(--ria-border-strong);
+	--sl-color-gray-6: var(--ria-border-subtle);
+	--sl-color-black: var(--ria-neutral-bg);
+	--sl-color-accent-low: rgba(59, 130, 246, 0.16);
+	--sl-color-accent: var(--ria-primary);
+	--sl-color-accent-high: #bfdbfe;
+}
+
+:root[data-theme='light'] {
+	--ria-neutral-bg: #f8fafc;
+	--ria-neutral-panel: #ffffff;
+	--ria-neutral-surface: #f1f5f9;
+	--ria-neutral-surface-raised: #e2e8f0;
+	--ria-border-subtle: #cbd5e1;
+	--ria-border-strong: #94a3b8;
+	--ria-text-primary: #0f172a;
+	--ria-text-secondary: #334155;
+	--ria-text-muted: #64748b;
+	--ria-code-bg: #e2e8f0;
+	--ria-shadow-panel: 0 16px 38px rgba(15, 23, 42, 0.1);
+	--ria-shadow-panel-hover: 0 24px 48px rgba(15, 23, 42, 0.14);
+}
+
+html {
+	background:
+		radial-gradient(circle at 12% 0%, rgba(59, 130, 246, 0.12), transparent 28rem),
+		radial-gradient(circle at 92% 16%, rgba(45, 212, 191, 0.09), transparent 26rem),
+		var(--ria-neutral-bg);
+}
+
+body {
+	background: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+	outline: 2px solid var(--ria-primary-high);
+	outline-offset: 3px;
+}
+
+.ria-wide {
+	width: min(100%, 1120px);
+	margin-inline: auto;
+}
+
+.ria-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+	gap: 1rem;
+}
+
+.ria-panel,
+.ria-card,
+.ria-youtube,
+.ria-graph,
+.ria-terminal {
+	position: relative;
+	border: 1px solid var(--ria-border-subtle);
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 38%),
+		linear-gradient(180deg, var(--ria-neutral-surface-raised), var(--ria-neutral-surface));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--ria-shadow-panel);
+	color: var(--ria-text-primary);
+}
+
+.ria-panel {
+	padding: 1.5rem;
+	border-radius: 24px;
+	background:
+		radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.12), transparent 22rem),
+		radial-gradient(circle at 100% 10%, rgba(244, 114, 182, 0.1), transparent 20rem),
+		linear-gradient(180deg, var(--ria-neutral-panel), var(--ria-neutral-surface));
+}
+
+.ria-card {
+	overflow: hidden;
+	padding: 1.25rem;
+	border-radius: 16px;
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease,
+		transform 160ms ease;
+}
+
+.ria-card:hover {
+	border-color: var(--ria-border-strong);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--ria-shadow-panel-hover);
+	transform: translateY(-2px);
+}
+
+.ria-card[data-accent='data'],
+.ria-accent-data {
+	--ria-component-accent: var(--ria-secondary);
+	--ria-component-glow: var(--ria-glow-signal);
+}
+
+.ria-card[data-accent='train'],
+.ria-accent-train {
+	--ria-component-accent: var(--ria-tertiary);
+	--ria-component-glow: var(--ria-glow-model);
+}
+
+.ria-card[data-accent='deploy'],
+.ria-accent-deploy {
+	--ria-component-accent: var(--ria-warning);
+	--ria-component-glow: rgba(250, 204, 21, 0.16);
+}
+
+.ria-card[data-accent='runner'],
+.ria-accent-runner {
+	--ria-component-accent: var(--ria-primary-high);
+	--ria-component-glow: var(--ria-glow-primary);
+}
+
+.ria-card::before {
+	content: '';
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 3px;
+	background: var(--ria-component-accent, var(--ria-primary-high));
+	box-shadow: 0 0 18px var(--ria-component-glow, var(--ria-glow-primary));
+}
+
+.ria-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	width: fit-content;
+	max-width: 100%;
+	border: 1px solid var(--ria-border-subtle);
+	border-radius: 9999px;
+	background: var(--ria-neutral-surface-raised);
+	padding: 0.25rem 0.65rem;
+	color: var(--ria-text-secondary);
+	font: 600 0.75rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.ria-status-dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	flex: 0 0 auto;
+	border-radius: 9999px;
+	background: var(--ria-status-color, var(--ria-text-muted));
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--ria-status-color, var(--ria-text-muted)) 18%, transparent);
+}
+
+.ria-terminal {
+	overflow: hidden;
+	border-radius: 16px;
+	background:
+		linear-gradient(180deg, rgba(96, 165, 250, 0.08), transparent 30%),
+		var(--ria-code-bg);
+}
+
+.ria-terminal pre {
+	margin: 0;
+	padding: 1rem;
+	overflow-x: auto;
+	background: transparent;
+	color: var(--ria-text-primary);
+	font-size: 0.9rem;
+}
+
+.ria-youtube,
+.ria-graph {
+	overflow: hidden;
+	border-radius: 24px;
+	background:
+		linear-gradient(180deg, rgba(45, 212, 191, 0.08), transparent 36%),
+		var(--ria-neutral-panel);
+}
+
+.ria-scan-grid {
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+
+@media (max-width: 40rem) {
+	.ria-panel,
+	.ria-card {
+		padding: 1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
