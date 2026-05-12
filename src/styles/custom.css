@@ -1,0 +1,108 @@
+/* ============================================================
+   RIA Hub brand theme for Starlight
+   Brand palette: blue #4183c4  →  purple #8c4f9d
+   Dark base: #0c141f (navy)
+   ============================================================ */
+
+/* -- Dark mode ------------------------------------------------ */
+:root {
+  --sl-color-accent-low:  #162234;
+  --sl-color-accent:      #4183c4;
+  --sl-color-accent-high: #9ecaed;
+
+  --sl-color-white:   #f0f4f9;
+  --sl-color-gray-1:  #cdd5df;
+  --sl-color-gray-2:  #a2afbd;
+  --sl-color-gray-3:  #6b7f96;
+  --sl-color-gray-4:  #2d3f55;
+  --sl-color-gray-5:  #1a2535;
+  --sl-color-gray-6:  #111b2a;
+  --sl-color-black:   #0c141f;
+}
+
+/* -- Light mode ---------------------------------------------- */
+:root[data-theme='light'] {
+  --sl-color-accent-low:  #e4eff9;
+  --sl-color-accent:      #2d6aa4;
+  --sl-color-accent-high: #1a4878;
+
+  --sl-color-white:   #0f1e30;
+  --sl-color-gray-1:  #1e3a56;
+  --sl-color-gray-2:  #4a6a8a;
+  --sl-color-gray-3:  #7899b8;
+  --sl-color-gray-4:  #bfd0e4;
+  --sl-color-gray-5:  #e5edf6;
+  --sl-color-gray-6:  #f4f7fb;
+  --sl-color-black:   #ffffff;
+}
+
+/* -- Hero section -------------------------------------------- */
+
+/* Gradient on the primary CTA button */
+.hero .action.primary {
+  background: linear-gradient(135deg, #4183c4, #8c4f9d);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.hero .action.primary:hover {
+  background: linear-gradient(135deg, #5294d4, #9e60ae);
+  border-color: transparent;
+}
+
+/* Subtle gradient wash behind the hero */
+.hero {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% -10%,
+    rgba(65, 131, 196, 0.12) 0%,
+    transparent 70%
+  );
+}
+
+/* -- Top navigation ------------------------------------------ */
+header.header {
+  border-bottom-color: rgba(65, 131, 196, 0.18);
+  background-color: rgba(12, 20, 31, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* -- Sidebar ------------------------------------------------- */
+.sidebar-pane {
+  border-right-color: rgba(65, 131, 196, 0.12);
+}
+
+/* Active sidebar link pill */
+a[aria-current='page'],
+[data-theme='light'] a[aria-current='page'] {
+  background: linear-gradient(
+    90deg,
+    rgba(65, 131, 196, 0.18),
+    rgba(140, 79, 157, 0.10)
+  );
+}
+
+/* -- Accent links -------------------------------------------- */
+a:not([class]) {
+  text-decoration-color: rgba(65, 131, 196, 0.4);
+}
+
+a:not([class]):hover {
+  text-decoration-color: #4183c4;
+}
+
+/* -- Cards on the landing page ------------------------------ */
+.card {
+  border-color: rgba(65, 131, 196, 0.18);
+}
+
+.card:hover {
+  border-color: rgba(65, 131, 196, 0.42);
+  background: rgba(65, 131, 196, 0.06);
+}
+
+/* -- Inline code -------------------------------------------- */
+code:not(pre > code) {
+  background-color: rgba(65, 131, 196, 0.12);
+  border-color: rgba(65, 131, 196, 0.20);
+}

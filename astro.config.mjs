@@ -9,6 +9,7 @@ export default defineConfig({
 		starlight({
 			title: 'RIA Hub Docs',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/qoherent/riahub-docs' }],
+			customCss: ['./src/styles/custom.css'],
 			sidebar: [
 				{
 					label: 'Getting Started',
@@ -17,8 +18,16 @@ export default defineConfig({
 					],
 				},
 				{
-					label: 'Guides',
-					items: [{ autogenerate: { directory: 'guides' } }],
+					label: 'Dataset Manager',
+					items: [{ autogenerate: { directory: 'guides/dataset-manager' } }],
+				},
+				{
+					label: 'Recordings',
+					items: [{ autogenerate: { directory: 'guides/recordings' } }],
+				},
+				{
+					label: 'RIA Testbed Conductor',
+					items: [{ autogenerate: { directory: 'guides/conductor' } }],
 				},
 				{
 					label: 'Reference',
