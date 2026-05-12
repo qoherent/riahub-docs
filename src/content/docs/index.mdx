@@ -3,7 +3,7 @@ title: RIA Hub Documentation
 description: Guides and reference material for using the RIA Hub platform.
 template: splash
 hero:
-  tagline: Guided workflows, component-rich references, and onboarding material for the RIA Hub platform.
+  tagline: Build, curate, and deploy RF machine learning datasets and models — all in one place.
   actions:
     - text: Get Started
       link: /guides/getting-started/
@@ -14,38 +14,21 @@ hero:
       variant: minimal
 ---
 
-import PipelineGraph from '@components/docs/PipelineGraph.astro';
-import InteractiveCards from '@components/docs/InteractiveCards.astro';
-import SectionCard from '@components/docs/SectionCard.astro';
-import StatusLight from '@components/docs/StatusLight.astro';
-import BrandPanel from '@components/docs/BrandPanel.astro';
-import { buildOutcomeCards } from '@data/onboarding';
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
-<BrandPanel />
+## Explore the docs
 
-## RIA Hub Workflow
-
-<PipelineGraph workflow="capture-to-screens" activeNode="capture" />
-
-<InteractiveCards title="What the docs help you produce" cards={buildOutcomeCards} defaultSelected="dataset" />
-
-## Start Here
-
-<div class="ria-grid">
-	<SectionCard eyebrow="onboard" title="End-to-end onboarding" href="/guides/e2e-onboarding/" accent="runner" summary="Move from source data to a running Screens app.">
-		Use this when you want the whole RIA Hub journey in one path.
-	</SectionCard>
-	<SectionCard eyebrow="data" title="Curate and inspect" href="/guides/curation-and-labeling/" accent="data" summary="Prepare a radio dataset before training.">
-		Use this when labels, slices, or dataset readiness are the blocker.
-	</SectionCard>
-	<SectionCard eyebrow="train" title="Train a model" href="/guides/train-a-model/" accent="train" summary="Launch Model Builder and interpret run results.">
-		Use this when you are ready to choose a template, runner, and artifact.
-	</SectionCard>
-	<SectionCard eyebrow="deploy" title="Package for Screens" href="/guides/package-an-application/" accent="deploy" summary="Turn exported artifacts into a runnable app pipeline.">
-		Use this when an app manifest or Screens runtime is the next step.
-	</SectionCard>
-</div>
-
-<p>
-	<StatusLight label="Docs shell" status="ready" detail="Starlight" /> <StatusLight label="Interactive islands" status="running" detail="Svelte behind Astro wrappers" />
-</p>
+<CardGrid stagger>
+	<Card title="Getting Started" icon="rocket">
+		New to RIA Hub? Start with the [introduction](/guides/introduction/) for an overview of the platform.
+	</Card>
+	<Card title="Guides" icon="open-book">
+		Step-by-step walkthroughs for synthesizing datasets, running capture campaigns, curating recordings, and inspecting data quality.
+	</Card>
+	<Card title="Reference" icon="document">
+		Detailed reference for platform features, configuration options, and supported hardware.
+	</Card>
+	<Card title="RIA Hub" icon="external">
+		Ready to get hands-on? Sign in or create an account at [riahub.ai](https://riahub.ai).
+	</Card>
+</CardGrid>
