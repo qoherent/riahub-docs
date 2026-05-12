@@ -1,0 +1,198 @@
+---
+import { getYouTubeEmbedUrl, getYouTubeVideoId, getYouTubeWatchUrl } from '../media/youtube';
+
+export interface Props {
+	id?: string;
+	src?: string;
+	title: string;
+	caption?: string;
+	poster?: string;
+	start?: number;
+	aspectRatio?: '16:9' | '4:3' | '1:1';
+	privacyEnhanced?: boolean;
+}
+
+const {
+	id,
+	src,
+	title,
+	caption,
+	poster,
+	start,
+	aspectRatio = '16:9',
+	privacyEnhanced = true,
+} = Astro.props;
+
+const videoId = getYouTubeVideoId(id ?? src);
+if (!videoId) {
+	throw new Error(`YouTubeEmbed requires a valid YouTube video ID or URL for "${title}".`);
+}
+
+const aspectRatios = {
+	'16:9': '16 / 9',
+	'4:3': '4 / 3',
+	'1:1': '1 / 1',
+};
+
+const embedUrl = getYouTubeEmbedUrl(videoId, privacyEnhanced, start, true);
+const watchUrl = getYouTubeWatchUrl(videoId, start);
+const posterStyle = poster ? `--ria-youtube-poster: url('${poster}');` : '';
+---
+
+<figure class="ria-youtube-embed" style={`--ria-youtube-ratio: ${aspectRatios[aspectRatio]}; ${posterStyle}`}>
+	<div class="ria-youtube-embed__frame ria-youtube" data-ria-youtube data-src={embedUrl} data-title={title}>
+		<div class:list={['ria-youtube-embed__poster', { 'has-poster': Boolean(poster) }]}>
+			<div class="ria-youtube-embed__signal" aria-hidden="true">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			<button type="button" aria-label={`Play video: ${title}`}>
+				<span aria-hidden="true"></span>
+				Play
+			</button>
+		</div>
+	</div>
+	{caption && <figcaption>{caption}</figcaption>}
+	<noscript>
+		<a href={watchUrl}>Watch video: {title}</a>
+	</noscript>
+</figure>
+
+<script>
+	const preconnectOrigins = ['https://www.youtube-nocookie.com', 'https://www.youtube.com', 'https://i.ytimg.com'];
+
+	function addPreconnects() {
+		for (const origin of preconnectOrigins) {
+			if (document.querySelector(`link[data-ria-youtube-preconnect="${origin}"]`)) continue;
+			const link = document.createElement('link');
+			link.rel = 'preconnect';
+			link.href = origin;
+			link.dataset.riaYoutubePreconnect = origin;
+			document.head.append(link);
+		}
+	}
+
+	function activate(root: HTMLElement) {
+		const src = root.dataset.src;
+		const title = root.dataset.title;
+		if (!src || !title || root.dataset.active === 'true') return;
+
+		addPreconnects();
+
+		const iframe = document.createElement('iframe');
+		iframe.src = src;
+		iframe.title = title;
+		iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+		iframe.allowFullscreen = true;
+		iframe.loading = 'lazy';
+		iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+		root.dataset.active = 'true';
+		root.replaceChildren(iframe);
+	}
+
+	function initYouTubeEmbeds() {
+		for (const root of document.querySelectorAll<HTMLElement>('[data-ria-youtube]:not([data-ready])')) {
+			root.dataset.ready = 'true';
+			const button = root.querySelector('button');
+			root.addEventListener('pointerenter', addPreconnects, { once: true });
+			button?.addEventListener('focus', addPreconnects, { once: true });
+			button?.addEventListener('click', () => activate(root));
+		}
+	}
+
+	initYouTubeEmbeds();
+	document.addEventListener('astro:page-load', initYouTubeEmbeds);
+</script>
+
+<style>
+	.ria-youtube-embed {
+		margin: 1.5rem 0;
+	}
+
+	.ria-youtube-embed__frame {
+		aspect-ratio: var(--ria-youtube-ratio);
+	}
+
+	.ria-youtube-embed__frame iframe,
+	.ria-youtube-embed__poster {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	.ria-youtube-embed__poster {
+		position: relative;
+		display: grid;
+		place-items: center;
+		background:
+			linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+			radial-gradient(circle at 30% 20%, rgba(96, 165, 250, 0.25), transparent 18rem),
+			radial-gradient(circle at 70% 75%, rgba(45, 212, 191, 0.16), transparent 16rem),
+			var(--ria-code-bg);
+		background-size: 28px 28px, 28px 28px, auto, auto, auto;
+	}
+
+	.ria-youtube-embed__poster.has-poster {
+		background:
+			linear-gradient(rgba(7, 11, 18, 0.15), rgba(7, 11, 18, 0.62)),
+			var(--ria-youtube-poster) center / cover;
+	}
+
+	.ria-youtube-embed__signal {
+		position: absolute;
+		inset: 20%;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		align-items: end;
+		gap: 8%;
+		opacity: 0.5;
+	}
+
+	.ria-youtube-embed__signal span {
+		display: block;
+		border-radius: 9999px 9999px 0 0;
+		background: linear-gradient(180deg, var(--ria-secondary), transparent);
+	}
+
+	.ria-youtube-embed__signal span:nth-child(1) {
+		height: 42%;
+	}
+
+	.ria-youtube-embed__signal span:nth-child(2) {
+		height: 72%;
+	}
+
+	.ria-youtube-embed__signal span:nth-child(3) {
+		height: 55%;
+	}
+
+	.ria-youtube-embed button {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		border: 1px solid rgba(255, 255, 255, 0.24);
+		border-radius: 9999px;
+		background: rgba(7, 11, 18, 0.84);
+		padding: 0.8rem 1.05rem;
+		color: var(--ria-text-primary);
+		font-weight: 800;
+		cursor: pointer;
+		box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+	}
+
+	.ria-youtube-embed button span {
+		width: 0;
+		height: 0;
+		border-block: 0.42rem solid transparent;
+		border-left: 0.7rem solid var(--ria-secondary);
+	}
+
+	.ria-youtube-embed figcaption {
+		margin-top: 0.65rem;
+		color: var(--ria-text-secondary);
+		font-size: 0.92rem;
+	}
+</style>

@@ -1,0 +1,108 @@
+---
+import CollapsibleListIsland from '../islands/CollapsibleListIsland.svelte';
+
+export type CollapsibleItem = {
+	title: string;
+	body: string;
+	badge?: string;
+	defaultOpen?: boolean;
+};
+
+export interface Props {
+	title?: string;
+	intro?: string;
+	items: CollapsibleItem[];
+	variant?: 'plain' | 'panel' | 'checklist';
+	interactive?: boolean;
+}
+
+const { title, intro, items, variant = 'plain', interactive = false } = Astro.props;
+---
+
+{
+	interactive ? (
+		<CollapsibleListIsland title={title} intro={intro} items={items} variant={variant} client:visible />
+	) : (
+		<section class="ria-collapsible-list" data-variant={variant}>
+			{title && <h3>{title}</h3>}
+			{intro && <p class="ria-collapsible-list__intro">{intro}</p>}
+			<div class="ria-collapsible-list__items">
+				{items.map((item) => (
+					<details class="ria-collapsible-list__item" open={item.defaultOpen}>
+						<summary>
+							<span>{item.title}</span>
+							{item.badge && <em>{item.badge}</em>}
+						</summary>
+						<p>{item.body}</p>
+					</details>
+				))}
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.ria-collapsible-list {
+		margin: 1.5rem 0;
+	}
+
+	.ria-collapsible-list[data-variant='panel'],
+	.ria-collapsible-list[data-variant='checklist'] {
+		border: 1px solid var(--ria-border-subtle);
+		border-radius: 16px;
+		background: var(--ria-neutral-panel);
+		padding: 1rem;
+	}
+
+	.ria-collapsible-list h3 {
+		margin: 0 0 0.5rem;
+		color: var(--ria-text-primary);
+	}
+
+	.ria-collapsible-list__intro {
+		margin: 0 0 1rem;
+		color: var(--ria-text-secondary);
+	}
+
+	.ria-collapsible-list__items {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.ria-collapsible-list__item {
+		border: 1px solid var(--ria-border-subtle);
+		border-radius: 12px;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+			var(--ria-neutral-surface);
+	}
+
+	.ria-collapsible-list__item summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.85rem 1rem;
+		color: var(--ria-text-primary);
+		font-weight: 750;
+		cursor: pointer;
+	}
+
+	.ria-collapsible-list__item em {
+		border-radius: 9999px;
+		background: var(--ria-neutral-surface-raised);
+		padding: 0.25rem 0.55rem;
+		color: var(--ria-secondary);
+		font: 700 0.7rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		font-style: normal;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.ria-collapsible-list__item p {
+		margin: 0;
+		border-top: 1px solid var(--ria-border-subtle);
+		padding: 1rem;
+		color: var(--ria-text-secondary);
+	}
+</style>
