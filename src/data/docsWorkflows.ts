@@ -170,7 +170,7 @@ export const workflows = {
 				needsNext: 'Queue capacity and permissions.',
 			},
 			{
-				id: 'run',
+				id: 'train',
 				label: 'Training run',
 				stage: 'train',
 				summary: 'Monitor job steps, duration, status, and logs.',
@@ -200,8 +200,8 @@ export const workflows = {
 		edges: [
 			{ from: 'dataset', to: 'template' },
 			{ from: 'template', to: 'runner' },
-			{ from: 'runner', to: 'run' },
-			{ from: 'run', to: 'metrics' },
+			{ from: 'runner', to: 'train' },
+			{ from: 'train', to: 'metrics' },
 			{ from: 'metrics', to: 'artifact' },
 		],
 	},

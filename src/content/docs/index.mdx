@@ -3,10 +3,10 @@ title: RIA Hub Documentation
 description: Guides and reference material for using the RIA Hub platform.
 template: splash
 hero:
-  tagline: How-to guides, reference, and onboarding material for the RIA Hub platform.
+  tagline: Guided workflows, component-rich references, and onboarding material for the RIA Hub platform.
   actions:
     - text: Get Started
-      link: /guides/introduction/
+      link: /guides/getting-started/
       icon: right-arrow
     - text: Visit RIA Hub
       link: https://riahub.ai
@@ -14,21 +14,35 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import SectionCard from '@components/docs/SectionCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import { buildOutcomeCards } from '@data/onboarding';
 
-## Explore the docs
+## RIA Hub Workflow
 
-<CardGrid stagger>
-	<Card title="Getting Started" icon="rocket">
-		New to RIA Hub? Start with the [introduction](/guides/introduction/).
-	</Card>
-	<Card title="Guides" icon="open-book">
-		How-to articles for common platform workflows.
-	</Card>
-	<Card title="Reference" icon="document">
-		Detailed reference for platform features and APIs.
-	</Card>
-	<Card title="Contribute" icon="pencil">
-		These docs live in the [riahub-docs](https://github.com/qoherent/riahub-docs) repo — PRs welcome.
-	</Card>
-</CardGrid>
+<PipelineGraph workflow="capture-to-screens" activeNode="capture" />
+
+<InteractiveCards title="What the docs help you produce" cards={buildOutcomeCards} defaultSelected="dataset" />
+
+## Start Here
+
+<div class="ria-grid">
+	<SectionCard eyebrow="onboard" title="End-to-end onboarding" href="/guides/e2e-onboarding/" accent="runner" summary="Move from source data to a running Screens app.">
+		Use this when you want the whole RIA Hub journey in one path.
+	</SectionCard>
+	<SectionCard eyebrow="data" title="Curate and inspect" href="/guides/curation-and-labeling/" accent="data" summary="Prepare a radio dataset before training.">
+		Use this when labels, slices, or dataset readiness are the blocker.
+	</SectionCard>
+	<SectionCard eyebrow="train" title="Train a model" href="/guides/train-a-model/" accent="train" summary="Launch Model Builder and interpret run results.">
+		Use this when you are ready to choose a template, runner, and artifact.
+	</SectionCard>
+	<SectionCard eyebrow="deploy" title="Package for Screens" href="/guides/package-an-application/" accent="deploy" summary="Turn exported artifacts into a runnable app pipeline.">
+		Use this when an app manifest or Screens runtime is the next step.
+	</SectionCard>
+</div>
+
+<p>
+	<StatusLight label="Docs shell" status="ready" detail="Starlight" /> <StatusLight label="Interactive islands" status="running" detail="Svelte behind Astro wrappers" />
+</p>

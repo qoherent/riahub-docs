@@ -36,7 +36,7 @@
 		{/each}
 	</div>
 	{#if selected}
-		<aside class="details" aria-live="polite" tabindex="0" data-accent={selected.accent ?? 'runner'}>
+		<aside class="details" aria-live="polite" data-accent={selected.accent ?? 'runner'}>
 			<span>{selected.eyebrow ?? 'selected'}</span>
 			<h4>{selected.title}</h4>
 			<p>{selected.details ?? selected.summary}</p>

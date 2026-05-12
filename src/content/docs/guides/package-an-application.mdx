@@ -1,0 +1,42 @@
+---
+title: Package an Application
+description: Connect trained artifacts into a deployable app pipeline for RIA Hub Screens.
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+
+export const packageCards = [
+	{ id: 'engine', title: 'Engine Builder', eyebrow: 'target', summary: 'Choose backend and runtime targets for the packaged artifact.', details: 'Use backend target references before committing a runtime profile.', accent: 'runner' },
+	{ id: 'composer', title: 'Application Composer', eyebrow: 'pipeline', summary: 'Connect source, inference, transform, and sink blocks on the canvas.', details: 'Composer validates edges, block compatibility, and required properties.', accent: 'deploy' },
+	{ id: 'screens', title: 'Screens target', eyebrow: 'runtime', summary: 'Package for the Screens runtime profile when the app should run in the Screens UI.', details: 'The ria-screens target profile carries manifest and runtime expectations.', accent: 'deploy' },
+	{ id: 'validation', title: 'Validation', eyebrow: 'checks', summary: 'Fix missing model paths, invalid block order, and sink or device gaps.', details: 'Validation failures should be resolved before build or commit actions.', accent: 'train' },
+];
+
+## Application Composer Workflow
+
+<PipelineGraph workflow="capture-to-screens" activeNode="package" />
+
+Application Composer turns trained artifacts into an app pipeline. Blocks and edges describe source, transform, inference, and sink behavior; target profile selection controls runtime packaging; commit and build actions persist the result.
+
+<InteractiveCards title="Packaging surfaces" cards={packageCards} defaultSelected="composer" />
+
+<p>
+	<StatusLight label="Manifest" status="ready" detail="valid blocks" /> <StatusLight label="Build" status="queued" detail="runner required" />
+</p>
+
+## Packaging Checklist
+
+<CollapsibleList
+	title="Validation failures to resolve"
+	items={[
+		{ title: 'Model artifact missing', body: 'Select a trained artifact and confirm the model path can be resolved by the packager.' },
+		{ title: 'Invalid inference block', body: 'Ensure the inference block receives the model path and compatible input data.' },
+		{ title: 'Missing sink or device', body: 'Select the output sink, device, or Screens runtime settings required by the target profile.' },
+		{ title: 'Block order is invalid', body: 'Fix edges so the graph follows source, preprocessing, inference, postprocessing, and sink order.' },
+	]}
+	variant="checklist"
+	interactive
+/>

@@ -1,0 +1,47 @@
+---
+title: Getting Started
+description: Choose a setup path, prepare Git LFS, and run the local documentation workflow.
+---
+
+import SectionCard from '@components/docs/SectionCard.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import TerminalCard from '@components/docs/TerminalCard.astro';
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+import { setupPaths } from '@data/onboarding';
+
+## Choose Your Setup Path
+
+<div class="ria-grid">
+	{setupPaths.map((path) => (
+		<SectionCard eyebrow={path.eyebrow} title={path.title} summary={path.summary} accent={path.accent}>
+			{path.details}
+		</SectionCard>
+	))}
+</div>
+
+## Git LFS Baseline
+
+RIA Hub repositories can contain recordings, datasets, exported models, and packaging artifacts. Git LFS keeps those large files manageable while the normal Git history tracks pointers and metadata.
+
+<CollapsibleList
+	title="Install and confirm Git LFS"
+	items={[
+		{ title: 'Install Git LFS', body: 'Use your platform package manager or the official Git LFS installer, then run git lfs install once for your user.' },
+		{ title: 'Clone after installation', body: 'Install LFS before cloning repositories that already contain RF data so the large objects are fetched correctly.' },
+		{ title: 'Check tracked files', body: 'Run git lfs ls-files in the repository to confirm recordings or artifacts are tracked by LFS.' },
+	]}
+	variant="panel"
+/>
+
+<TerminalCard
+	title="Clone and run docs locally"
+	command={`git clone https://github.com/qoherent/riahub-docs.git
+cd riahub-docs
+npm install
+npm run dev`}
+	result="Astro serves the docs at http://localhost:4321"
+/>
+
+<CalloutPanel title="Hosted instance setup" tone="warning">
+	If your team provides an existing RIA Hub instance, use the repository, runner, and permission details from that environment instead of guessing local defaults.
+</CalloutPanel>
