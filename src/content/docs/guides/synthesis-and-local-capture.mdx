@@ -1,0 +1,38 @@
+---
+title: Synthesis and Local Capture
+description: Create example RF data through synthesis or local capture before curation.
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import { snrDistributionExample } from '@data/trainingExamples';
+
+export const captureChoices = [
+	{ id: 'synthetic', title: 'Synthetic generation', eyebrow: 'generator', summary: 'Create controlled modulation examples with known labels and SNR settings.', details: 'Use this when you need repeatable training data, quick examples, or a known class distribution.', accent: 'data' },
+	{ id: 'local', title: 'Local capture', eyebrow: 'recording', summary: 'Collect real RF recordings and track them in the Library.', details: 'Use this when hardware, environment, or device behavior matters more than perfect balance.', accent: 'runner' },
+];
+
+## Create an Example Signal Problem
+
+<PipelineGraph workflow="dataset" activeNode="capture" />
+
+<InteractiveCards title="Choose a source path" cards={captureChoices} defaultSelected="synthetic" />
+
+Synthetic generation is useful for controlled examples and quick training material. Local capture is useful when the task depends on hardware, environment, device behavior, or scenario-specific interference. In both cases, the output should enter the Library before curation.
+
+<MetricGraph {...snrDistributionExample} />
+
+## Generator Settings
+
+<CollapsibleList
+	title="Generator settings to document"
+	items={[
+		{ title: 'Modulation selection', body: 'Choose the modulation classes that match the training problem.' },
+		{ title: 'SNR range', body: 'Set expected signal quality and keep enough variation for the model to generalize.' },
+		{ title: 'Signal configuration', body: 'Record sample rate, center frequency assumptions, pulse shaping, channel model, and gain settings.' },
+		{ title: 'Estimated totals', body: 'Confirm generated examples, class counts, and storage size before starting the task.' },
+	]}
+	variant="panel"
+/>

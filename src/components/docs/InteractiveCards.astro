@@ -1,0 +1,24 @@
+---
+import InteractiveCardsIsland from '../islands/InteractiveCardsIsland.svelte';
+
+export type InteractiveCard = {
+	id: string;
+	title: string;
+	eyebrow?: string;
+	summary: string;
+	details?: string;
+	icon?: string;
+	accent?: 'data' | 'train' | 'deploy' | 'runner';
+};
+
+export interface Props {
+	title?: string;
+	cards: InteractiveCard[];
+	defaultSelected?: string;
+	layout?: 'grid' | 'rail';
+}
+
+const { title, cards, defaultSelected, layout = 'grid' } = Astro.props;
+---
+
+<InteractiveCardsIsland title={title} cards={cards} defaultSelected={defaultSelected} layout={layout} client:visible />

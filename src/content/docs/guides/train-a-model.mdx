@@ -1,0 +1,49 @@
+---
+title: Train a Model
+description: Launch a Model Builder training run and interpret runner status, metrics, and artifacts.
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import YouTubeEmbed from '@components/docs/YouTubeEmbed.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import { trainingCurveExample, modelComparisonExample } from '@data/trainingExamples';
+
+export const trainingChoices = [
+	{ id: 'template', title: 'Model template', eyebrow: 'template', summary: 'Choose the configured training path for the dataset.', details: 'Template selection controls generated code, adapters, transforms, and artifact expectations.', accent: 'train' },
+	{ id: 'runner', title: 'Runner', eyebrow: 'compute', summary: 'Pick the execution target that can run the workflow.', details: 'Runner state determines whether the job queues, starts, or waits for capacity.', accent: 'runner' },
+	{ id: 'mode', title: 'Mode', eyebrow: 'run', summary: 'Select training, export, HPO, or another supported mode.', details: 'Mode changes the generated workflow and the artifacts expected downstream.', accent: 'deploy' },
+];
+
+## Training Workflow
+
+<PipelineGraph workflow="training" activeNode="train" />
+
+Model Builder selects repository, runner, dataset, model template, and mode, then triggers a workflow run. The Training Dashboard reports run status, job steps, duration, artifacts, run history, and model comparison data.
+
+<InteractiveCards title="Model Builder choices" cards={trainingChoices} defaultSelected="template" />
+
+<p>
+	<StatusLight label="Queued" status="queued" /> <StatusLight label="Running" status="running" /> <StatusLight label="Succeeded" status="ready" /> <StatusLight label="Failed" status="error" />
+</p>
+
+## Reading a Run
+
+<MetricGraph {...trainingCurveExample} />
+
+<MetricGraph {...modelComparisonExample} />
+
+<CollapsibleList
+	title="WavesFM path"
+	items={[
+		{ title: 'Form input', body: 'The Model Builder form captures dataset, template, runner, and mode choices.' },
+		{ title: 'Handler', body: 'The backend handler generates the training workflow and connects it to repository state.' },
+		{ title: 'Python template', body: 'The generated Python path adapts datasets, applies transforms, and trains the model.' },
+		{ title: 'Actions runner', body: 'The runner executes steps and produces metrics plus artifacts for export.' },
+	]}
+	variant="panel"
+/>
+
+<YouTubeEmbed id="aqz-KE-bpKQ" title="Training run walkthrough placeholder" caption="Replace this placeholder with the RIA Hub training walkthrough when available." />

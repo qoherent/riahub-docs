@@ -1,0 +1,64 @@
+---
+export interface Props {
+	title: string;
+	eyebrow?: string;
+	summary?: string;
+	href?: string;
+	accent?: 'data' | 'train' | 'deploy' | 'runner';
+}
+
+const { title, eyebrow, summary, href, accent = 'runner' } = Astro.props;
+const Tag = href ? 'a' : 'section';
+---
+
+<Tag class="ria-section-card ria-card" data-accent={accent} href={href}>
+	{eyebrow && <p class="ria-section-card__eyebrow">{eyebrow}</p>}
+	<h3>{title}</h3>
+	{summary && <p class="ria-section-card__summary">{summary}</p>}
+	<div class="ria-section-card__body">
+		<slot />
+	</div>
+</Tag>
+
+<style>
+	.ria-section-card {
+		display: block;
+		height: 100%;
+		color: var(--ria-text-primary);
+		text-decoration: none;
+	}
+
+	.ria-section-card h3 {
+		margin: 0;
+		color: var(--ria-text-primary);
+		font-size: clamp(1.05rem, 2vw, 1.25rem);
+		line-height: 1.25;
+	}
+
+	.ria-section-card__eyebrow {
+		margin: 0 0 0.55rem;
+		color: var(--ria-component-accent, var(--ria-primary-high));
+		font: 700 0.72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.ria-section-card__summary,
+	.ria-section-card__body {
+		color: var(--ria-text-secondary);
+	}
+
+	.ria-section-card__summary {
+		margin: 0.6rem 0 0;
+		line-height: 1.55;
+	}
+
+	.ria-section-card__body {
+		margin-top: 1rem;
+		font-size: 0.95rem;
+	}
+
+	.ria-section-card__body :global(:last-child) {
+		margin-bottom: 0;
+	}
+</style>

@@ -1,0 +1,56 @@
+---
+export interface Props {
+	title: string;
+	tone?: 'info' | 'success' | 'warning' | 'danger';
+}
+
+const { title, tone = 'info' } = Astro.props;
+---
+
+<aside class="ria-callout-panel" data-tone={tone}>
+	<h3>{title}</h3>
+	<div>
+		<slot />
+	</div>
+</aside>
+
+<style>
+	.ria-callout-panel {
+		--ria-callout-color: var(--ria-primary-high);
+		margin: 1.25rem 0;
+		border: 1px solid color-mix(in srgb, var(--ria-callout-color) 45%, var(--ria-border-subtle));
+		border-radius: 16px;
+		background:
+			radial-gradient(circle at 0 0, color-mix(in srgb, var(--ria-callout-color) 18%, transparent), transparent 18rem),
+			var(--ria-neutral-panel);
+		padding: 1rem 1.1rem;
+		color: var(--ria-text-primary);
+	}
+
+	.ria-callout-panel[data-tone='success'] {
+		--ria-callout-color: var(--ria-success);
+	}
+
+	.ria-callout-panel[data-tone='warning'] {
+		--ria-callout-color: var(--ria-warning);
+	}
+
+	.ria-callout-panel[data-tone='danger'] {
+		--ria-callout-color: var(--ria-danger);
+	}
+
+	.ria-callout-panel h3 {
+		margin: 0 0 0.55rem;
+		color: var(--ria-callout-color);
+		font-size: 1rem;
+	}
+
+	.ria-callout-panel div {
+		color: var(--ria-text-secondary);
+		line-height: 1.55;
+	}
+
+	.ria-callout-panel div :global(:last-child) {
+		margin-bottom: 0;
+	}
+</style>

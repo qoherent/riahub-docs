@@ -1,0 +1,22 @@
+---
+import MetricGraphIsland from '../islands/MetricGraphIsland.svelte';
+
+export type MetricSeries = {
+	label: string;
+	values: number[];
+	color?: string;
+};
+
+export interface Props {
+	title: string;
+	description?: string;
+	type: 'bar' | 'line' | 'meter';
+	series: MetricSeries[];
+	labels?: string[];
+	unit?: string;
+}
+
+const { title, description, type, series, labels = [], unit } = Astro.props;
+---
+
+<MetricGraphIsland title={title} description={description} type={type} series={series} labels={labels} unit={unit} client:visible />

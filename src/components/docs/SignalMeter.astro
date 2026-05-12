@@ -1,0 +1,93 @@
+---
+export interface Props {
+	label: string;
+	value: number;
+	min?: number;
+	max?: number;
+	unit?: string;
+	detail?: string;
+	tone?: 'signal' | 'model' | 'warning';
+}
+
+const { label, value, min = 0, max = 100, unit = '%', detail, tone = 'signal' } = Astro.props;
+const bounded = Math.min(max, Math.max(min, value));
+const percent = max === min ? 0 : ((bounded - min) / (max - min)) * 100;
+---
+
+<section
+	class="ria-signal-meter"
+	data-tone={tone}
+	aria-label={`${label}: ${value}${unit}`}
+	style={`--ria-meter-value: ${percent}%`}
+>
+	<div class="ria-signal-meter__header">
+		<span>{label}</span>
+		<strong>{value}{unit}</strong>
+	</div>
+	<div class="ria-signal-meter__track" aria-hidden="true">
+		<span></span>
+	</div>
+	{detail && <p>{detail}</p>}
+</section>
+
+<style>
+	.ria-signal-meter {
+		--ria-meter-color: var(--ria-secondary);
+		border: 1px solid var(--ria-border-subtle);
+		border-radius: 16px;
+		background: var(--ria-neutral-panel);
+		padding: 1rem;
+		color: var(--ria-text-primary);
+	}
+
+	.ria-signal-meter[data-tone='model'] {
+		--ria-meter-color: var(--ria-tertiary);
+	}
+
+	.ria-signal-meter[data-tone='warning'] {
+		--ria-meter-color: var(--ria-warning);
+	}
+
+	.ria-signal-meter__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.ria-signal-meter__header span {
+		color: var(--ria-text-secondary);
+		font-weight: 700;
+	}
+
+	.ria-signal-meter__header strong {
+		color: var(--ria-meter-color);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.ria-signal-meter__track {
+		overflow: hidden;
+		height: 0.75rem;
+		border-radius: 9999px;
+		background:
+			linear-gradient(90deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+			var(--ria-code-bg);
+	}
+
+	.ria-signal-meter__track span {
+		display: block;
+		width: var(--ria-meter-value);
+		height: 100%;
+		border-radius: inherit;
+		background: linear-gradient(90deg, var(--ria-primary), var(--ria-meter-color));
+		box-shadow: 0 0 18px color-mix(in srgb, var(--ria-meter-color) 38%, transparent);
+	}
+
+	.ria-signal-meter p {
+		margin: 0.75rem 0 0;
+		color: var(--ria-text-secondary);
+		font-size: 0.95rem;
+		line-height: 1.45;
+	}
+</style>
