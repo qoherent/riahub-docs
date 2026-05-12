@@ -12,3 +12,4 @@
 - Fixed lazy YouTube embeds so keyboard activation creates the iframe and applies the strict referrer policy attribute.
 - Added a reference guide for creating MDX pages, embedding static and interactive docs components, defining nested sections, and building a copyable syntax-highlighted `CodeBlock` component.
 - Added a GitHub Pages deploy step that writes `dist/.nojekyll` so the built `/_astro` assets are served without Jekyll processing.
+- Fixed Starlight stylesheet configuration so both the brand theme and reusable RIA docs component styles load locally and in static builds.

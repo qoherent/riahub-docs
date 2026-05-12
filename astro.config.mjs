@@ -15,9 +15,8 @@ export default defineConfig({
 				alt: 'RIA Hub Docs',
 				replacesTitle: true,
 			},
-			customCss: ['./src/styles/ria-docs.css'],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/qoherent/riahub-docs' }],
-			customCss: ['./src/styles/custom.css'],
+			customCss: ['./src/styles/custom.css', './src/styles/ria-docs.css'],
 			sidebar: [
 				{
 					label: 'Getting Started',
