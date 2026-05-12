@@ -87,6 +87,7 @@ const posterStyle = poster ? `--ria-youtube-poster: url('${poster}');` : '';
 		iframe.allowFullscreen = true;
 		iframe.loading = 'lazy';
 		iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+		iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
 		root.dataset.active = 'true';
 		root.replaceChildren(iframe);
 	}
@@ -98,6 +99,11 @@ const posterStyle = poster ? `--ria-youtube-poster: url('${poster}');` : '';
 			root.addEventListener('pointerenter', addPreconnects, { once: true });
 			button?.addEventListener('focus', addPreconnects, { once: true });
 			button?.addEventListener('click', () => activate(root));
+			button?.addEventListener('keydown', (event) => {
+				if (event.key !== 'Enter' && event.key !== ' ') return;
+				event.preventDefault();
+				activate(root);
+			});
 		}
 	}
 

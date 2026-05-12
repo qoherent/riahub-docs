@@ -1,0 +1,104 @@
+---
+export interface Props {
+	tagline?: string;
+}
+
+const { tagline = 'Radio intelligence workflows from source data to deployed Screens apps.' } = Astro.props;
+---
+
+<section class="ria-brand-panel ria-panel ria-wide" aria-label="RIA Hub">
+	<div class="ria-brand-panel__copy">
+		<img class="ria-brand-panel__wordmark" src="/ria/brand/logo-full.svg" alt="RIA Hub" loading="eager" decoding="async" />
+		<p>{tagline}</p>
+	</div>
+	<div class="ria-brand-panel__assets" aria-hidden="true">
+		<img class="ria-brand-panel__combination" src="/ria/brand/combination-mark.svg" alt="" loading="eager" decoding="async" />
+		<img class="ria-brand-panel__mark" src="/ria/brand/logo.svg" alt="" loading="eager" decoding="async" />
+		<img class="ria-brand-panel__favicon" src="/ria/brand/favicon.svg" alt="" loading="eager" decoding="async" />
+	</div>
+</section>
+
+<style>
+	.ria-brand-panel {
+		display: grid;
+		grid-template-columns: minmax(0, 0.9fr) minmax(17rem, 1.1fr);
+		align-items: center;
+		gap: 1.5rem;
+		margin: 1.5rem 0 2rem;
+		overflow: hidden;
+	}
+
+	.ria-brand-panel__copy {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.ria-brand-panel__wordmark {
+		width: min(16rem, 100%);
+		height: auto;
+	}
+
+	.ria-brand-panel p {
+		margin: 0;
+		max-width: 34rem;
+		color: var(--ria-text-secondary);
+		font-size: 1.05rem;
+		line-height: 1.55;
+	}
+
+	.ria-brand-panel__assets {
+		position: relative;
+		min-height: 14rem;
+		border: 1px solid var(--ria-border-subtle);
+		border-radius: 20px;
+		background:
+			linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+			radial-gradient(circle at 80% 20%, rgba(45, 212, 191, 0.18), transparent 14rem),
+			var(--ria-code-bg);
+		background-size: 24px 24px, 24px 24px, auto, auto;
+	}
+
+	.ria-brand-panel__combination {
+		position: absolute;
+		inset: 1.25rem 1.25rem auto;
+		width: calc(100% - 2.5rem);
+		height: auto;
+		max-height: 5.5rem;
+		object-fit: contain;
+		object-position: left center;
+		opacity: 0.92;
+	}
+
+	.ria-brand-panel__mark {
+		position: absolute;
+		right: 1.25rem;
+		bottom: 1rem;
+		width: min(34%, 8rem);
+		height: auto;
+		filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.35));
+	}
+
+	.ria-brand-panel__favicon {
+		position: absolute;
+		left: 1.25rem;
+		bottom: 1.25rem;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid var(--ria-border-subtle);
+		border-radius: 14px;
+		background: var(--ria-neutral-panel);
+		padding: 0.5rem;
+		box-shadow: var(--ria-shadow-panel);
+	}
+
+	@media (max-width: 48rem) {
+		.ria-brand-panel {
+			grid-template-columns: 1fr;
+		}
+
+		.ria-brand-panel__assets {
+			min-height: 12rem;
+		}
+	}
+</style>

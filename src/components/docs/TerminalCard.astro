@@ -13,7 +13,7 @@ const { title, eyebrow = 'terminal', command, result, prompt = '$' } = Astro.pro
 <figure class="ria-terminal-card ria-terminal">
 	{title && (
 		<figcaption>
-			<span>{eyebrow}</span>
+			<span><img src="/ria/icons/terminal.svg" alt="" loading="lazy" decoding="async" aria-hidden="true" />{eyebrow}</span>
 			<strong>{title}</strong>
 		</figcaption>
 	)}
@@ -39,10 +39,20 @@ const { title, eyebrow = 'terminal', command, result, prompt = '$' } = Astro.pro
 	}
 
 	.ria-terminal-card figcaption span {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
 		color: var(--ria-secondary);
 		font: 700 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
+	}
+
+	.ria-terminal-card figcaption img {
+		width: 1rem;
+		height: 1rem;
+		object-fit: contain;
+		filter: invert(79%) sepia(42%) saturate(663%) hue-rotate(122deg) brightness(94%) contrast(91%);
 	}
 
 	.ria-terminal-card figcaption strong {

@@ -43,6 +43,10 @@ The dev server runs at `http://localhost:4321`.
 4. Do not import Svelte islands directly in MDX; the Astro wrappers decide when hydration is needed.
 5. The page will appear in the sidebar automatically (sections use `autogenerate`).
 
+## RIA assets
+
+Brand, status, and terminal assets live under `public/ria/`. The Starlight header uses the combination mark, the landing page uses `BrandPanel`, `StatusLight` uses the copied status icons, and `TerminalCard` uses the terminal icon. `public/CNAME` is deployment metadata for the custom domain.
+
 ## Deployment
 
 Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the site and publishes it to GitHub Pages.

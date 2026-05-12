@@ -8,3 +8,5 @@
 - Added a component showcase at `src/content/docs/reference/components.mdx`.
 - Added journey guides for getting started, end-to-end onboarding, training materials, synthesis/local capture, curation/labeling, inspection, training, packaging, and Screens.
 - Updated the landing page and README to document the component-based authoring model.
+- Wired copied public RIA assets into the Starlight header, site favicon, landing brand panel, component showcase, status chips, and terminal cards.
+- Fixed lazy YouTube embeds so keyboard activation creates the iframe and applies the strict referrer policy attribute.

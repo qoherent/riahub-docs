@@ -14,12 +14,15 @@ import CollapsibleList from '@components/docs/CollapsibleList.astro';
 import InteractiveCards from '@components/docs/InteractiveCards.astro';
 import PipelineGraph from '@components/docs/PipelineGraph.astro';
 import MetricGraph from '@components/docs/MetricGraph.astro';
+import BrandPanel from '@components/docs/BrandPanel.astro';
 import { prerequisites, buildOutcomeCards } from '@data/onboarding';
 import { classBalanceExample, trainingCurveExample } from '@data/trainingExamples';
 
 ## Static Components
 
 Use these Astro components directly from MDX when a page needs richer explanation blocks without browser hydration.
+
+<BrandPanel tagline="Use the brand panel when a page needs the copied RIA Hub marks to anchor a major workflow overview." />
 
 <div class="ria-grid">
 	<SectionCard eyebrow="data" title="Curate radio examples" accent="data" summary="Collect source recordings, slice useful intervals, and attach labels before a model run.">

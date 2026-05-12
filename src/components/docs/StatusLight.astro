@@ -8,18 +8,19 @@ export interface Props {
 const { label, status = 'ready', detail } = Astro.props;
 
 const statusMap = {
-	ready: { text: 'Ready', color: 'var(--ria-success)' },
-	running: { text: 'Running', color: 'var(--ria-secondary)' },
-	queued: { text: 'Queued', color: 'var(--ria-primary-high)' },
-	warning: { text: 'Check', color: 'var(--ria-warning)' },
-	error: { text: 'Error', color: 'var(--ria-danger)' },
-	stopped: { text: 'Stopped', color: 'var(--ria-text-muted)' },
+	ready: { text: 'Ready', color: 'var(--ria-success)', icon: '/ria/status/checkmark.png' },
+	running: { text: 'Running', color: 'var(--ria-secondary)', icon: '/ria/status/loading.png' },
+	queued: { text: 'Queued', color: 'var(--ria-primary-high)', icon: '/ria/status/loading.png' },
+	warning: { text: 'Check', color: 'var(--ria-warning)', icon: '/ria/status/failed.png' },
+	error: { text: 'Error', color: 'var(--ria-danger)', icon: '/ria/status/failed.png' },
+	stopped: { text: 'Stopped', color: 'var(--ria-text-muted)', icon: '/ria/status/failed.png' },
 };
 
 const meta = statusMap[status];
 ---
 
 <span class="ria-status-light ria-chip" style={`--ria-status-color: ${meta.color}`} aria-label={`${label}: ${meta.text}`}>
+	<img src={meta.icon} alt="" loading="lazy" decoding="async" aria-hidden="true" />
 	<span class="ria-status-dot" aria-hidden="true"></span>
 	<span class="ria-status-light__label">{label}</span>
 	<span class="ria-status-light__state">{meta.text}</span>
@@ -29,6 +30,12 @@ const meta = statusMap[status];
 <style>
 	.ria-status-light {
 		white-space: normal;
+	}
+
+	.ria-status-light img {
+		width: 1rem;
+		height: 1rem;
+		object-fit: contain;
 	}
 
 	.ria-status-light__label {

@@ -10,6 +10,11 @@ export default defineConfig({
 		svelte(),
 		starlight({
 			title: 'RIA Hub Docs',
+			logo: {
+				src: './public/ria/brand/combination-mark.svg',
+				alt: 'RIA Hub Docs',
+				replacesTitle: true,
+			},
 			customCss: ['./src/styles/ria-docs.css'],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/qoherent/riahub-docs' }],
 			sidebar: [
