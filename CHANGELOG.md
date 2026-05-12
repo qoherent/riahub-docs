@@ -10,3 +10,4 @@
 - Updated the landing page and README to document the component-based authoring model.
 - Wired copied public RIA assets into the Starlight header, site favicon, landing brand panel, component showcase, status chips, and terminal cards.
 - Fixed lazy YouTube embeds so keyboard activation creates the iframe and applies the strict referrer policy attribute.
+- Added a reference guide for creating MDX pages, embedding static and interactive docs components, defining nested sections, and building a copyable syntax-highlighted `CodeBlock` component.

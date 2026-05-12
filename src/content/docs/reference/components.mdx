@@ -15,6 +15,7 @@ import InteractiveCards from '@components/docs/InteractiveCards.astro';
 import PipelineGraph from '@components/docs/PipelineGraph.astro';
 import MetricGraph from '@components/docs/MetricGraph.astro';
 import BrandPanel from '@components/docs/BrandPanel.astro';
+import CodeBlock from '@components/docs/CodeBlock.astro';
 import { prerequisites, buildOutcomeCards } from '@data/onboarding';
 import { classBalanceExample, trainingCurveExample } from '@data/trainingExamples';
 
@@ -50,6 +51,14 @@ Use these Astro components directly from MDX when a page needs richer explanatio
 	command={`npm install
 npm run dev`}
 	result="Local server ready at http://localhost:4321"
+/>
+
+<CodeBlock
+	title="StatusLight usage"
+	lang="mdx"
+	code={`import StatusLight from '@components/docs/StatusLight.astro';
+
+<StatusLight label="Runner" status="running" detail="polling every 5s" />`}
 />
 
 <CalloutPanel title="Authoring rule">
