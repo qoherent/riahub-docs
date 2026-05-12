@@ -1,0 +1,65 @@
+---
+export interface Props {
+	title?: string;
+	eyebrow?: string;
+	command: string;
+	result?: string;
+	prompt?: string;
+}
+
+const { title, eyebrow = 'terminal', command, result, prompt = '$' } = Astro.props;
+---
+
+<figure class="ria-terminal-card ria-terminal">
+	{title && (
+		<figcaption>
+			<span>{eyebrow}</span>
+			<strong>{title}</strong>
+		</figcaption>
+	)}
+	<pre aria-label={title ? `${title} command` : 'Terminal command'}><code><span class="prompt">{prompt}</span> {command}</code></pre>
+	{result && <pre class="result" aria-label={title ? `${title} result` : 'Terminal result'}><code>{result}</code></pre>}
+</figure>
+
+<style>
+	.ria-terminal-card {
+		margin: 1.25rem 0;
+	}
+
+	.ria-terminal-card figcaption {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		border-bottom: 1px solid var(--ria-border-subtle);
+		padding: 0.7rem 1rem;
+		background: rgba(255, 255, 255, 0.035);
+		color: var(--ria-text-secondary);
+	}
+
+	.ria-terminal-card figcaption span {
+		color: var(--ria-secondary);
+		font: 700 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.ria-terminal-card figcaption strong {
+		color: var(--ria-text-primary);
+		font-size: 0.95rem;
+	}
+
+	.ria-terminal-card pre + pre {
+		border-top: 1px solid var(--ria-border-subtle);
+	}
+
+	.ria-terminal-card .result {
+		color: var(--ria-text-secondary);
+	}
+
+	.ria-terminal-card .prompt {
+		color: var(--ria-secondary);
+		font-weight: 700;
+	}
+</style>

@@ -1,0 +1,47 @@
+---
+export interface Props {
+	label: string;
+	status?: 'ready' | 'running' | 'queued' | 'warning' | 'error' | 'stopped';
+	detail?: string;
+}
+
+const { label, status = 'ready', detail } = Astro.props;
+
+const statusMap = {
+	ready: { text: 'Ready', color: 'var(--ria-success)' },
+	running: { text: 'Running', color: 'var(--ria-secondary)' },
+	queued: { text: 'Queued', color: 'var(--ria-primary-high)' },
+	warning: { text: 'Check', color: 'var(--ria-warning)' },
+	error: { text: 'Error', color: 'var(--ria-danger)' },
+	stopped: { text: 'Stopped', color: 'var(--ria-text-muted)' },
+};
+
+const meta = statusMap[status];
+---
+
+<span class="ria-status-light ria-chip" style={`--ria-status-color: ${meta.color}`} aria-label={`${label}: ${meta.text}`}>
+	<span class="ria-status-dot" aria-hidden="true"></span>
+	<span class="ria-status-light__label">{label}</span>
+	<span class="ria-status-light__state">{meta.text}</span>
+	{detail && <span class="ria-status-light__detail">{detail}</span>}
+</span>
+
+<style>
+	.ria-status-light {
+		white-space: normal;
+	}
+
+	.ria-status-light__label {
+		color: var(--ria-text-primary);
+	}
+
+	.ria-status-light__state {
+		color: var(--ria-status-color);
+	}
+
+	.ria-status-light__detail {
+		color: var(--ria-text-muted);
+		text-transform: none;
+		letter-spacing: 0;
+	}
+</style>
