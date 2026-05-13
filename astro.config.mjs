@@ -49,10 +49,6 @@ export default defineConfig({
 					label: 'RIA Testbed Conductor',
 					items: [{ autogenerate: { directory: 'guides/conductor' } }],
 				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
 			],
 		}),
 	],
