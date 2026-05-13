@@ -22,7 +22,16 @@ export default defineConfig({
 					label: 'Getting Started',
 					items: [
 						{ label: 'Introduction', slug: 'guides/introduction' },
+						{ label: 'Getting Started', slug: 'guides/getting-started' },
 					],
+				},
+				{
+					label: 'Tutorials',
+					items: [{ autogenerate: { directory: 'guides/tutorials' } }],
+				},
+				{
+					label: 'Platform',
+					items: [{ autogenerate: { directory: 'guides/platform' } }],
 				},
 				{
 					label: 'Dataset Manager',
@@ -31,6 +40,10 @@ export default defineConfig({
 				{
 					label: 'Recordings',
 					items: [{ autogenerate: { directory: 'guides/recordings' } }],
+				},
+				{
+					label: 'Model Builder',
+					items: [{ autogenerate: { directory: 'guides/model-builder' } }],
 				},
 				{
 					label: 'RIA Testbed Conductor',

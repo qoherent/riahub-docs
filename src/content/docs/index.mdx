@@ -14,21 +14,13 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 ## Explore the docs
 
-<CardGrid>
-	<Card title="Getting Started" icon="rocket">
-		New to RIA Hub? Start with the [introduction](/guides/introduction/) for an overview of the platform.
-	</Card>
-	<Card title="Guides" icon="open-book">
-		Step-by-step walkthroughs for synthesizing datasets, running capture campaigns, curating recordings, and inspecting data quality.
-	</Card>
-	<Card title="Reference" icon="document">
-		Detailed reference for platform features, configuration options, and supported hardware.
-	</Card>
-	<Card title="RIA Hub" icon="external">
-		Ready to get hands-on? Sign in or create an account at [riahub.ai](https://riahub.ai).
-	</Card>
+<CardGrid stagger>
+	<LinkCard title="Getting Started" icon="rocket" href="/guides/introduction/" description="New to RIA Hub? Start with the introduction for an overview of the platform." />
+	<LinkCard title="Guides" icon="open-book" href="/guides/" description="Step-by-step walkthroughs for synthesizing datasets, running capture campaigns, curating recordings, and inspecting data quality." />
+	<LinkCard title="Reference" icon="document" href="/reference/" description="Detailed reference for platform features, configuration options, and supported hardware." />
+	<LinkCard title="RIA Hub" icon="external" href="https://riahub.ai" description="Ready to get hands-on? Sign in or create an account at riahub.ai." />
 </CardGrid>
