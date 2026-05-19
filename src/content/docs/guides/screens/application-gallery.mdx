@@ -1,0 +1,82 @@
+---
+title: Application Gallery
+description: Browse, rename, launch, and manage packaged RIA Screens applications from the Application Gallery.
+sidebar:
+  order: 1
+---
+
+import StatusLight from '@components/docs/StatusLight.astro';
+
+## Overview
+
+The **Application Gallery** is the entry point for every packaged RIA Hub Screens application. Each app appears as a card showing its display name, status, version, and owner. From the gallery you can open an app, rename it, change its version, edit it in Studio, or delete it.
+
+The gallery lives at `/screens`. The page header reads:
+
+> Application Gallery — Browse, launch, and manage RIA Screens applications.
+
+A **Remote Agents** action button in the header opens the agents list.
+
+## What you'll need
+
+- At least one packaged Screens app. Build one in the [Application Composer](/guides/application-packager/application-composer/) or upload an existing manifest.
+
+---
+
+## Step 1 — Open the gallery
+
+Click **Screens** in the top navigation. The gallery loads at `/screens` and renders a card per app. If you have no apps yet the empty state reads:
+
+> No applications deployed yet. Deploy an app package to get started, or build one from the Application Composer.
+
+---
+
+## Step 2 — Find your app
+
+Apps are rendered in a responsive grid (one column on small screens, two on medium, three on large). Use your browser's find-in-page if you need to locate an app by name; the page does not currently expose a search field.
+
+---
+
+## Step 3 — Read the app card
+
+Each card shows, top-to-bottom:
+
+- **Display name** — links to the app's runtime view at `/screens/<appid>`.
+- **Status badge** — a pill in the top-right corner. Colour and text reflect the app's runtime state.
+- **Actions menu** — three-dot button next to the status badge.
+- **Description** — optional, drawn from the manifest.
+- **Version and owner** — `v1.2.3 by <owner>` on the bottom row.
+
+Status badges use four runtime states:
+
+<p>
+	<StatusLight label="Stopped" status="stopped" detail="not running" /> <StatusLight label="Deploying" status="queued" detail="starting up" /> <StatusLight label="Running" status="running" detail="serving traffic" /> <StatusLight label="Error" status="error" detail="check logs" />
+</p>
+
+| Status | Meaning |
+|---|---|
+| `stopped` | The app is packaged but no runtime is attached. |
+| `deploying` | The runtime is provisioning the app's containers. |
+| `running` | The app is live; open the card to use it. |
+| `error` | The runtime failed; open the app to see the error banner. |
+
+---
+
+## Step 4 — Rename, change version, edit, or delete
+
+Click the three-dot menu on a card. The dropdown exposes four actions:
+
+| Action | Effect |
+|---|---|
+| **Edit in Studio** | Opens `/screens/studio?appId=<id>` so you can edit the layout. See [Screens Studio](/guides/screens/studio/). |
+| **Rename** | Replaces the card title with an inline input; press Enter or blur to save, Escape to cancel. The display name is committed to the app metadata, not the source manifest. |
+| **Change version** | Opens a dialog that accepts a semver string matching `^\d+\.\d+\.\d+(-[\w.]+)?$` — for example `1.2.3` or `1.2.3-beta.1`. |
+| **Delete** | Opens a confirmation dialog; permanently removes the app and its stored manifest. |
+
+---
+
+## Next steps
+
+- Start an app — see [Run a Screens application](/guides/screens/app-runtime/).
+- Edit the layout — see [Screens Studio](/guides/screens/studio/).
+- Bind a live SDR — see [Remote Agents](/guides/screens/remote-agents/).
