@@ -1,8 +1,46 @@
 ---
 title: RIA Screens
-description: Run packaged RIA Hub applications, manage their remote agents, and edit their layouts in Studio.
+description: Run packaged RIA Hub applications, register remote SDR agents, and edit app layouts in Studio.
 sidebar:
   order: 0
 ---
 
-This is a stub. Content will be added in a follow-up step.
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+
+export const screensModuleCards = [
+	{ id: 'gallery', title: 'Application Gallery', eyebrow: 'browse', summary: 'List, rename, and version every packaged app.', details: 'Cards expose status, owner, version, and the Edit-in-Studio action.', accent: 'deploy' },
+	{ id: 'runtime', title: 'App runtime', eyebrow: 'run', summary: 'Start a packaged app and watch its manifest-driven component grid.', details: 'Live SSE streams power status, progress, logs, and TX errors.', accent: 'runner' },
+	{ id: 'studio', title: 'Screens Studio', eyebrow: 'edit', summary: 'Edit the manifest without rebuilding the app.', details: 'Bumps the patch version and commits to the source repo.', accent: 'train' },
+	{ id: 'agents', title: 'Remote Agents', eyebrow: 'hardware', summary: 'Register and bind SDR agents for live IQ.', details: 'Required when a manifest declares an SDR or agent data source.', accent: 'data' },
+];
+
+**RIA Screens** is the browser-side runtime that runs packaged RIA Hub applications. A packaged app is a manifest plus a model bundle: Screens reads the manifest, lays out tiles in a 12-column grid, attaches each tile to its named pipeline operator, and pipes live data through SSE streams. Studio edits the same manifest in place; remote agents feed live SDR data when an app needs it.
+
+## Modules
+
+| Module | What it does |
+|--------|-------------|
+| [Application Gallery](/guides/screens/application-gallery/) | Browse, rename, version, and delete every packaged Screens app, or open one for editing in Studio |
+| [App runtime](/guides/screens/app-runtime/) | Start a packaged app, follow its component grid, watch logs, and stop or restart it |
+| [Screens Studio](/guides/screens/studio/) | Edit a packaged app's manifest, swap components, fix missing props, and commit the change without rebuilding |
+| [Remote Agents](/guides/screens/remote-agents/) | Register, list, and bind SDR agents that stream live IQ into agent-backed apps |
+| [Studio component catalog](/guides/screens/studio-component-catalog/) | Reference list of every component you can drop into a Studio tile, with declared props |
+
+<InteractiveCards title="Modules" cards={screensModuleCards} defaultSelected="runtime" />
+
+## Prerequisites
+
+- A **packaged Screens app** committed to a repository — see [Application Composer](/guides/application-packager/application-composer/).
+- **Read access** to the source repository so Screens can fetch the manifest. **Write access** is required if you intend to edit the manifest in Studio.
+- For apps whose manifest sets `dataSource.type` to `sdr` or `agent`, at least one **registered remote agent** with the matching hardware online — see [Remote Agents](/guides/screens/remote-agents/).
+
+## The Screens manifest
+
+Every packaged app stores its layout at `screens/<app-name>/manifest.json` in its source repository. The manifest declares the component tree the runtime renders, the data source it binds to, optional preprocessing, and any models the app ships. The [Application Composer reference](/guides/application-packager/application-composer-reference/#the-screens-build-path) documents the manifest schema and how the Composer generates it.
+
+## How it works
+
+Screens sits at the right edge of the Capture → Curate → Train → Package → Run pipeline. It consumes the manifest the Application Composer wrote, attaches its tiles to the live pipeline running under the controller, and streams status and metrics back to your browser.
+
+<PipelineGraph workflow="capture-to-screens" activeNode="screens" />
