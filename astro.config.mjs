@@ -46,6 +46,14 @@ export default defineConfig({
 					items: [{ autogenerate: { directory: 'guides/model-builder' } }],
 				},
 				{
+					label: 'Application Packager',
+					items: [{ autogenerate: { directory: 'guides/application-packager' } }],
+				},
+				{
+					label: 'RIA Screens',
+					items: [{ autogenerate: { directory: 'guides/screens' } }],
+				},
+				{
 					label: 'RIA Testbed Conductor',
 					items: [{ autogenerate: { directory: 'guides/conductor' } }],
 				},
