@@ -195,4 +195,4 @@ Check these in order:
 ## Next steps
 
 - **Hyperparameter optimisation** — open **Model Builder → HPO** to run an Optuna sweep across learning rate, batch size, and architecture variants
-- **Edge deployment** — take the `best.onnx` to the **Application Packager** to build a Holoscan inference application and deploy it to a registered Screens agent
+- **Edge deployment** — take the `best.onnx` to the [Application Packager](/guides/application-packager/) to build a Holoscan inference application and deploy it to a registered Screens agent

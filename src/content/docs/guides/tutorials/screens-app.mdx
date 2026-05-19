@@ -1,48 +1,41 @@
 ---
 title: Screens App
-description: Run, inspect, and edit packaged RIA Hub applications in Screens.
+description: Open a packaged RIA Hub application in Screens, start it, and edit its layout in Studio.
 sidebar:
   order: 8
 ---
 
 import PipelineGraph from '@components/docs/PipelineGraph.astro';
-import InteractiveCards from '@components/docs/InteractiveCards.astro';
 import StatusLight from '@components/docs/StatusLight.astro';
-import CollapsibleList from '@components/docs/CollapsibleList.astro';
 
-export const screensCards = [
-	{ id: 'list', title: 'Screens list', eyebrow: 'apps', summary: 'Review app cards, status, and available actions.', details: 'The list is the entry point for packaged apps and runtime state.', accent: 'deploy' },
-	{ id: 'runtime', title: 'App runtime', eyebrow: 'control', summary: 'Start, stop, inspect status banners, and follow logs.', details: 'Runtime controls mirror manifest status and stream errors back to the user.', accent: 'runner' },
-	{ id: 'manifest', title: 'Manifest panels', eyebrow: 'view', summary: 'Display component grids and app panels produced by packaging.', details: 'A successful package exposes the expected panels and pipeline status.', accent: 'data' },
-	{ id: 'studio', title: 'Screens Studio', eyebrow: 'edit', summary: 'Edit layouts, add components, resolve conflicts, and save drafts.', details: 'Studio is used when the runtime view needs layout or component changes.', accent: 'train' },
-];
-
-## Screens Runtime
+This tutorial walks an operator from "I have a packaged app in a repo" to "I am running it in Screens, watching it work, and editing its layout." Each step links to the feature guide where the full surface lives.
 
 <PipelineGraph workflow="capture-to-screens" activeNode="screens" />
 
-Screens shows packaged apps, app cards, status actions, runtime controls, manifest component grids, logs, start and stop lifecycle, and error states.
+## Step 1 — Find the app in the gallery
 
-<InteractiveCards title="Screens surfaces" cards={screensCards} defaultSelected="runtime" />
+Open **Screens** in the top nav. The [Application Gallery](/guides/screens/application-gallery/) shows every packaged app as a card with its status badge, version, and three-dot action menu.
+
+If you do not see your app, confirm it was built with target profile `ria-screens` (Composer) and that its manifest is committed at `screens/<app-name>/manifest.json` in the source repo.
+
+## Step 2 — Bind a remote agent (only if needed)
+
+If the app's manifest declares `dataSource.type` as `sdr` or `agent`, the Start button stays disabled until you bind an online agent. Open [Remote Agents](/guides/screens/remote-agents/) for register and bind instructions. Synthetic-source apps skip this step entirely.
+
+## Step 3 — Start the app
+
+Click the card to open the [App runtime](/guides/screens/app-runtime/), then click **Start**. Status flows from `stopped` to `running`. A yellow banner reminds you of the 10-minute consecutive runtime limit.
 
 <p>
-	<StatusLight label="Stopped" status="stopped" /> <StatusLight label="Starting" status="queued" /> <StatusLight label="Running" status="running" /> <StatusLight label="Error" status="error" />
+	<StatusLight label="Stopped" status="stopped" /> <StatusLight label="Running" status="running" /> <StatusLight label="Error" status="error" />
 </p>
 
-## Logs and Troubleshooting
+The manifest-driven component grid renders above a collapsible log strip. Each tile binds to a named operator in the running pipeline.
 
-<CollapsibleList
-	title="Screens checks"
-	items={[
-		{ title: 'Runtime does not start', body: 'Check app manifest validity, target profile, device settings, and model artifact paths.' },
-		{ title: 'Logs show missing props', body: 'Open Studio or the packaging page and fill required component properties.' },
-		{ title: 'Draft conflict appears', body: 'Review autosave and conflict state before overwriting another editor change.' },
-		{ title: 'Panel is absent', body: 'Confirm the manifest component grid includes the panel and the packaged app uses the expected runtime profile.' },
-	]}
-	variant="panel"
-	interactive
-/>
+## Step 4 — Edit the layout in Studio (optional)
 
-## Studio
+Open the gallery card's three-dot menu and pick **Edit in Studio** to open [Screens Studio](/guides/screens/studio/). Swap a component, drop a new tile, fix missing props, then **Save** — Studio bumps the manifest patch version and commits the change. The runtime view picks the new manifest up on its next load; no rebuild required.
 
-Use Screens Studio when you need to edit layouts, add components, resolve conflicts, save drafts, or navigate missing properties. Studio should refine a valid packaged app, not replace the packaging validation flow.
+---
+
+**Next:** look up a tile's props in the [Studio component catalog](/guides/screens/studio-component-catalog/), or jump back to the [Application Composer](/guides/application-packager/application-composer/) to package another app.

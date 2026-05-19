@@ -1,44 +1,62 @@
 ---
 title: Package an Application
-description: Connect trained artifacts into a deployable app pipeline for RIA Hub Screens.
+description: Walk a trained ONNX model from Model Builder to a packaged RIA Hub Screens application in four steps.
 sidebar:
   order: 7
 ---
 
 import PipelineGraph from '@components/docs/PipelineGraph.astro';
-import InteractiveCards from '@components/docs/InteractiveCards.astro';
 import CollapsibleList from '@components/docs/CollapsibleList.astro';
-import StatusLight from '@components/docs/StatusLight.astro';
 
-export const packageCards = [
-	{ id: 'engine', title: 'Engine Builder', eyebrow: 'target', summary: 'Choose backend and runtime targets for the packaged artifact.', details: 'Use backend target references before committing a runtime profile.', accent: 'runner' },
-	{ id: 'composer', title: 'Application Composer', eyebrow: 'pipeline', summary: 'Connect source, inference, transform, and sink blocks on the canvas.', details: 'Composer validates edges, block compatibility, and required properties.', accent: 'deploy' },
-	{ id: 'screens', title: 'Screens target', eyebrow: 'runtime', summary: 'Package for the Screens runtime profile when the app should run in the Screens UI.', details: 'The ria-screens target profile carries manifest and runtime expectations.', accent: 'deploy' },
-	{ id: 'validation', title: 'Validation', eyebrow: 'checks', summary: 'Fix missing model paths, invalid block order, and sink or device gaps.', details: 'Validation failures should be resolved before build or commit actions.', accent: 'train' },
-];
-
-## Application Composer Workflow
+This tutorial is the smallest possible Composer-to-Screens path. It assumes you already have a trained `best.onnx` artifact in a RIA Hub repository — see [Train a Model](/guides/model-builder/train-a-model/) if you don't.
 
 <PipelineGraph workflow="capture-to-screens" activeNode="package" />
 
-Application Composer turns trained artifacts into an app pipeline. Blocks and edges describe source, transform, inference, and sink behavior; target profile selection controls runtime packaging; commit and build actions persist the result.
+## Step 1 — Open Application Composer
 
-<InteractiveCards title="Packaging surfaces" cards={packageCards} defaultSelected="composer" />
+From the top nav, click **Application Packager → Application Composer**. The page is the graph-based editor that turns a trained artifact into a deployable application JSON. See [Application Composer](/guides/application-packager/application-composer/) for the full surface tour.
 
-<p>
-	<StatusLight label="Manifest" status="ready" detail="valid blocks" /> <StatusLight label="Build" status="queued" detail="runner required" />
-</p>
+## Step 2 — Compose the smallest pipeline
 
-## Packaging Checklist
+Drag four blocks from the **Available Blocks** sidebar:
+
+1. A `source` (RadioSource or a synthetic source).
+2. A `preprocessing` block matching the feature representation your model was trained on.
+3. An `inference` block. Double-click it and set `model_path_map` to the path of your `best.onnx`.
+4. A `sink` (display or network).
+
+Connect them left-to-right: `source → preprocessing → inference → sink`. The [Application Composer reference](/guides/application-packager/application-composer-reference/) lists every spec required per block type.
+
+## Step 3 — Pick the target and build
+
+In the toolbar:
+
+- Set **Target Build Repo** to the repository that should receive the application JSON.
+- Set **Target Profile** to **RIA Hub Screens (Web App)** (`ria-screens`).
+- Click **Build Application**.
+
+Composer validates the graph, generates a Screens manifest at `screens/<app-name>/manifest.json`, bundles the model into a tarball, and populates the commit form.
+
+## Step 4 — Commit
+
+Fill the commit message and click **Commit Changes**. The application JSON and manifest are now in your target repository, and the app is ready to run.
+
+---
+
+## What to do if Build fails
 
 <CollapsibleList
 	title="Validation failures to resolve"
 	items={[
-		{ title: 'Model artifact missing', body: 'Select a trained artifact and confirm the model path can be resolved by the packager.' },
-		{ title: 'Invalid inference block', body: 'Ensure the inference block receives the model path and compatible input data.' },
-		{ title: 'Missing sink or device', body: 'Select the output sink, device, or Screens runtime settings required by the target profile.' },
-		{ title: 'Block order is invalid', body: 'Fix edges so the graph follows source, preprocessing, inference, postprocessing, and sink order.' },
+		{ title: 'Model artifact missing', body: 'Open the inference block and confirm `model_path_map` resolves to a real path in the source repo. See the [reference](/guides/application-packager/application-composer-reference/#per-node-checks) for the full inference-block rule set.' },
+		{ title: 'Invalid inference block', body: 'Inference blocks must declare a non-empty `model_path_map`. The build is rejected if it is missing, empty, or non-string.' },
+		{ title: 'Missing sink or device', body: 'Every pipeline must end with a sink. Drop a sink block from the sidebar and connect it to the inference output.' },
+		{ title: 'Block order is invalid', body: 'Fix edges so the graph follows source → preprocessing → inference → postprocessing → sink. Delete and redraw any edges that skip a stage in the wrong direction.' },
 	]}
 	variant="checklist"
 	interactive
 />
+
+---
+
+**Next:** [Run your app in Screens →](/guides/screens/app-runtime/)
