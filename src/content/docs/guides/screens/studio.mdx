@@ -1,0 +1,169 @@
+---
+title: Screens Studio
+description: Edit RIA Hub Screens app layouts, swap components, and resolve missing props without rebuilding the application.
+sidebar:
+  order: 4
+---
+
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+
+## Overview
+
+**Screens Studio** edits the same `screens/<app>/manifest.json` the [Application Composer](/guides/application-packager/application-composer/) wrote. You reach it from a Screens app — the page subnav reads **Back to Screens → Studio** — so Studio is not a top-level surface but a sibling editor that opens onto a packaged app.
+
+Saving in Studio bumps the manifest patch version and commits the file back to the source repository. The runtime view picks the new manifest up on its next load — no rebuild required.
+
+**Use Studio when you want to:**
+
+- Swap one component for another in a packaged app's grid.
+- Fix missing props the runtime is complaining about.
+- Adjust tile placement, size, or row order.
+- Undo a bad edit without leaving the page.
+- Save a layout change without recompiling the application.
+
+**What Studio does NOT do:**
+
+- Rebuild the model artifact. Use Model Builder for that.
+- Change the pipeline graph (sources, preprocessing, inference, sinks). Use the Composer.
+- Replace a packaging-time validation failure. If the Composer rejects the build, fix it in the Composer.
+
+## What you'll need
+
+- A packaged Screens app — see [Application Composer](/guides/application-packager/application-composer/).
+- **Write access** to the app's source repository. Studio commits the manifest back to the same repo the Composer wrote to, so the controller will refuse the save without write permission on the source repo's code unit.
+
+---
+
+## Step 1 — Open Studio for an app
+
+Two paths:
+
+- From the [Application Gallery](/guides/screens/application-gallery/), open a card's three-dot menu and pick **Edit in Studio**.
+- From any Screens page, navigate to `/screens/studio?appId=<id>`.
+
+The Studio page subnav shows **Back to Screens** so you can return to the gallery in one click.
+
+---
+
+## Step 2 — Enter edit mode
+
+Studio loads in edit mode by default. The toolbar toggle reads **Switch to Preview** when you are editing and **Switch to Edit** when you are previewing.
+
+When you are previewing and the pipeline is not running, the page shows:
+
+> Start the pipeline to see live data.
+
+That message disappears once you switch to edit mode or start the app.
+
+<p>
+	<StatusLight label="Edit mode" status="ready" detail="palette, inspector, grid" /> <StatusLight label="Preview" status="queued" detail="awaiting Start" /> <StatusLight label="Saved" status="running" detail="commit landed" />
+</p>
+
+---
+
+## Step 3 — Open the component palette
+
+Click **Add Panel** in the toolbar to slide the **Component Palette** open. The palette groups every droppable component by its catalog category — the same categories listed on the [Studio component catalog](/guides/screens/studio-component-catalog/).
+
+Pick a component to insert. Studio pushes the new entry onto `manifest.components`, selects it for editing, and scrolls it into view.
+
+---
+
+## Step 4 — Drop a tile and configure it
+
+Tiles live on a GridStack canvas. In edit mode you can:
+
+- Drag a tile to move it.
+- Resize a tile by its corner handle.
+- Click a tile to select it; the **Panel Inspector** on the right opens with that tile's component name and a form bound to its `props`.
+
+The inspector renders one field per declared prop in the catalog's `propSchema`, including type hints and required markers. Editing a prop updates the tile reactively but does not push an undo entry — only structural changes do.
+
+---
+
+## Step 5 — Resolve missing props
+
+If a tile has unfilled required props, the grid surfaces a **Resolve missing** affordance on the tile. Clicking it focuses the inspector on the first missing field. Fill the field and the warning clears.
+
+The catalog declares which props are required; see the [Studio component catalog](/guides/screens/studio-component-catalog/) for the per-component list.
+
+---
+
+## Step 6 — Undo, redo, autosave drafts
+
+The toolbar exposes **Undo** and **Redo** buttons; standard keyboard shortcuts (`Ctrl/Cmd-Z` for undo, `Ctrl/Cmd-Shift-Z` for redo) are wired up the same way. Studio keeps up to 20 undo snapshots.
+
+Structural changes (adding a tile, deleting a tile, swapping a component, reordering) schedule a background draft save 10 seconds later. The draft is stored at `/screens/<appid>/manifest/draft` and is never committed to git — it only protects you from losing work to a tab close.
+
+---
+
+## Step 7 — Save
+
+Click **Save**. Studio POSTs to `/screens/<appid>/manifest?bump_version=true`. On success:
+
+- The server-side `StudioSave` handler bumps the manifest's patch version.
+- The new manifest is written to `screens/<app-name>/manifest.json` in the app's source repository.
+- The toolbar shows a green `Saved ✓` flash, then collapses into a `Saved · <short-sha>` link that opens the commit on RIA Hub.
+
+A status-207 response means the manifest was saved to the database but the git commit failed. A yellow banner surfaces the git error:
+
+> Saved to database — git commit failed: &lt;error&gt;
+
+Click **Retry** to re-attempt the commit without losing local state.
+
+---
+
+## Step 8 — Recover from a conflict
+
+If another author saved the manifest while you were editing, a yellow banner appears at the top of the page:
+
+> Another session saved this app while you were editing.
+
+Two recovery actions:
+
+| Action | Effect |
+|---|---|
+| **Load latest** | Replaces your local manifest with the version currently in the database. Your in-flight edits are lost. |
+| **Force save my version** | Re-POSTs your manifest to `/screens/<appid>/manifest?bump_version=true` and overwrites the conflicting version. |
+
+The draft endpoint returns `412 Precondition Failed` when its `If-Unmodified-Since` header is stale; Studio uses this to detect conflicts before you reach an explicit save.
+
+<CalloutPanel title="Source repo permission required" tone="warning">
+The save endpoint refuses your write if you lack permission on the source repository's code unit (the same repo the Composer wrote to). The controller looks up the source repo through `screensLookupSourceRepo` and rejects the request with a forbidden error if you cannot write to it.
+</CalloutPanel>
+
+---
+
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl/Cmd-Z` | Undo |
+| `Ctrl/Cmd-Shift-Z` | Redo |
+
+Studio does not currently expose an in-product shortcut help panel.
+
+---
+
+## Conflict recovery and edit hygiene
+
+<CollapsibleList
+	title="Studio recovery checks"
+	items={[
+		{ title: 'Conflict banner appeared mid-edit', body: 'Click Load latest to reset to the database state, then re-apply your edits. Use Force save only if you are certain your version is the one to keep.' },
+		{ title: 'Saved · <sha> link is missing', body: 'The save succeeded against the database but the commit step did not return a SHA. Reload the page once; if the link still does not appear, the git commit may have failed silently — check the source repo for the manifest path.' },
+		{ title: 'Edits survived a tab close', body: 'Studio auto-saves a draft 10s after the last structural change. Opening Studio for the same app reads the latest committed manifest, not the draft; check the source repo if the draft survived but the commit did not.' },
+		{ title: 'Panel error banner blocks the canvas', body: 'A tile threw inside the renderer. Dismiss the banner, undo the offending edit (Ctrl/Cmd-Z), and try a different component or property change.' },
+	]}
+	variant="panel"
+	interactive
+/>
+
+---
+
+## Next steps
+
+- Run the edited app — see [Run a Screens application](/guides/screens/app-runtime/).
+- Look up a tile's props — see the [Studio component catalog](/guides/screens/studio-component-catalog/).
