@@ -1,0 +1,124 @@
+---
+title: Run a Screens application
+description: Start, watch, and stop a packaged RIA Hub Screens application from its runtime view.
+sidebar:
+  order: 2
+---
+
+import StatusLight from '@components/docs/StatusLight.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import TerminalCard from '@components/docs/TerminalCard.astro';
+
+## Overview
+
+The **runtime view** is what an operator sees after picking an app from the [Application Gallery](/guides/screens/application-gallery/). It loads at `/screens/<appid>` and renders the manifest's component grid above a collapsible log strip. Status, progress, and operator metrics arrive over per-app and per-operator SSE streams so the page updates without polling.
+
+Every Screens app has a hard 10-minute consecutive runtime limit. A yellow banner reminds you of this whenever the app is running:
+
+> Apps may only run for 10 minutes consecutively. The app will be stopped automatically after this limit.
+
+## What you'll need
+
+- A packaged app visible in the gallery — see [Application Composer](/guides/application-packager/application-composer/).
+- A **remote agent** if the app's manifest declares a `dataSource.type` of `sdr` or `agent`. The Start button stays disabled until an agent is bound. See [Remote Agents](/guides/screens/remote-agents/).
+
+---
+
+## Step 1 — Open the app from the gallery
+
+Click the card title in the [Application Gallery](/guides/screens/application-gallery/). The runtime view loads with the app's display name, optional description, status badge, and Start button.
+
+---
+
+## Step 2 — Bind a remote agent
+
+Only required when the app's `dataSource` resolves to a remote SDR. The first source panel in the component grid exposes an agent picker; pick an online agent and the Start button becomes enabled. Until you do, the Start button is disabled with the hint:
+
+> Select a source agent before starting
+
+For details on registering an agent in the first place, see [Remote Agents](/guides/screens/remote-agents/).
+
+---
+
+## Step 3 — Start the app
+
+Click **Start**. The status badge transitions from `stopped` through brief intermediate values to `running`. If the start request fails, a red banner shows the controller error message. The 10-minute runtime banner appears once the app is running.
+
+<p>
+	<StatusLight label="Stopped" status="stopped" detail="awaiting start" /> <StatusLight label="Running" status="running" detail="component grid live" /> <StatusLight label="Error" status="error" detail="check banner and logs" />
+</p>
+
+---
+
+## Step 4 — Read the component grid
+
+The runtime renders a 12-column grid populated by the app's manifest. Each `components[]` entry becomes one tile; `layout.cols`, `layout.rows`, `layout.x`, and `layout.y` control placement.
+
+If the manifest has no components, the page shows:
+
+> No components defined in this application's manifest. Upload a package with a manifest.json to render the app GUI.
+
+For the catalog of tile types and their props, see the [Studio component catalog](/guides/screens/studio-component-catalog/).
+
+---
+
+## Step 5 — Watch logs
+
+The bottom of the page hosts a sticky `<details>` strip labelled **Application Logs**. Click the summary to expand it; logs are rendered in a monospace font with timestamps, log level, and message. Error-level logs render in red.
+
+The runtime fetches `/screens/<appid>/logs` on mount and appends progress and TX-error events from the SSE stream — `Iteration N — Tms inference` for normal progress and `TX error: <message>` for transmit faults.
+
+---
+
+## Step 6 — Stop, restart, or recover from errors
+
+- **Stop** appears in place of Start while the app is running. Click it to gracefully halt the runtime; the status badge returns to `stopped`.
+- A POST to `/screens/<appid>/restart` cycles the runtime in place; the gallery's three-dot menu does not expose this directly, but the route is available for programmatic use.
+- A red banner above the grid surfaces the controller error message whenever start fails. A yellow banner reads "A panel failed to render: …" if a tile throws inside the renderer.
+
+The runtime also dispatches a `/stop` beacon if you close the browser tab while an app is running or starting, so a forgotten tab does not idle on the controller.
+
+---
+
+## Hidden panels
+
+Each tile has a per-tile kebab menu that lets you hide it. Hidden tiles are tracked in the app's `config.ui.hidden_components` list, persisted through the same `PUT /screens/<appid>` endpoint that powers rename and version changes.
+
+When at least one tile is hidden, a **Show hidden (N)** pill appears next to the status badge. Clicking it opens a **Hidden panels** dialog where you can:
+
+- Restore any single panel by clicking its **Restore** button.
+- Restore every hidden panel at once via **Restore all**.
+
+---
+
+## Troubleshooting
+
+<CollapsibleList
+	title="Screens runtime checks"
+	items={[
+		{ title: 'Runtime does not start', body: 'Check the red banner under the status badge for the controller error message. The app manifest must be valid, the target profile must match the runtime, the model artifact paths must resolve, and any agent-backed dataSource must have an online agent bound before Start enables.' },
+		{ title: 'Logs show missing props', body: 'Open the panel kebab menu and pick Edit, or open the app in Studio. Studio surfaces a select-missing flow that walks every required prop a tile is missing.' },
+		{ title: 'Draft conflict appears', body: 'A draft conflict surfaces when another author saved the manifest while you held an unsaved edit. Review the conflict banner in Studio before overwriting.' },
+		{ title: 'Panel is absent', body: 'Either the component is hidden (open Show hidden (N)) or the manifest does not list it. Confirm the manifest component grid includes the panel and that the packaged app uses the expected runtime profile.' },
+		{ title: 'TX error in the log strip', body: 'TX errors arrive over the per-app SSE stream and appear in the log strip as `TX error: <message>`. Usually means the bound sink agent is offline or the SDR rejected the requested parameters.' },
+	]}
+	variant="panel"
+	interactive
+/>
+
+A health probe for the runtime is exposed at `/screens/<appid>/status` — the same endpoint the page polls behind the scenes. The collapsible log strip also fetches `/screens/<appid>/logs` for the most recent entries:
+
+<TerminalCard
+	title="Tail the runtime log endpoint"
+	command={`curl -fsSL "$RIAHUB/screens/<appid>/logs" \\
+  -H "Accept: application/json"`}
+	result={`{"logs": [{"timestamp":"...","level":"info","message":"Iteration 12 — 18ms inference"}]}`}
+/>
+
+---
+
+## Next steps
+
+- Edit the layout without rebuilding — see [Screens Studio](/guides/screens/studio/).
+- Register or bind a remote agent — see [Remote Agents](/guides/screens/remote-agents/).
+- Look up what a tile shows — see the [Studio component catalog](/guides/screens/studio-component-catalog/).
