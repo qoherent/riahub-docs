@@ -1,0 +1,102 @@
+---
+title: Remote Agents
+description: Register, list, and bind remote SDR agents that stream live IQ to RIA Hub Screens applications.
+sidebar:
+  order: 3
+---
+
+import TerminalCard from '@components/docs/TerminalCard.astro';
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+
+## Overview
+
+A **remote agent** is a small process that runs near an SDR — for example, a host with a Pluto, USRP, HackRF, or RTL-SDR attached — and bridges that hardware to RIA Hub Screens over WebSocket. Apps whose manifest declares `dataSource.type` of `sdr` or `agent` need an agent to feed them live IQ; apps with sink-side TX through real hardware need an agent for `dataSink` as well.
+
+The agents list lives at `/screens/agents`. The page header reads:
+
+> Remote Agents — Manage remote SDR agents that stream live IQ data to Screens applications.
+
+When no agents are registered, the empty state reads:
+
+> No agents registered yet. Register an agent using `ria-agent register` or the API.
+
+## What you'll need
+
+- An SDR supported by RIA Hub — Pluto, USRP, HackRF, or RTL-SDR (the device-type enum is `usrp`, `rtlsdr`, `hackrf`, `pluto`, `synth`).
+- Network reachability from the agent host to the RIA Hub controller.
+- A registration token or configuration the controller hands out when an agent is provisioned.
+
+<CalloutPanel title="Agent required" tone="warning">
+A Screens app whose manifest sets `dataSource.type` to `sdr` or `agent`, or whose `dataSink.type` is `agent`, will not start until you bind an online agent. The Start button stays disabled with the hint "Select a source agent before starting" until binding succeeds.
+</CalloutPanel>
+
+---
+
+## Step 1 — Register an agent
+
+Run the `ria-agent register` command on the host attached to your SDR:
+
+<TerminalCard
+	title="Register a remote agent"
+	command="ria-agent register"
+	result="Agent registered. Reporting heartbeat to https://your-riahub-host/."
+/>
+
+The CLI handles the auth and heartbeat configuration. Once registration completes, the agent appears in the agents list within one heartbeat interval.
+
+:::note
+The exhaustive `ria-agent register` flag set (auth token flow, hardware-tag spec, controller URL config) does not have a public document yet. Run `ria-agent register --help` for the latest options.
+:::
+
+---
+
+## Step 2 — View the agents list
+
+Open **Screens → Remote Agents**, or click the **Remote Agents** button on the Application Gallery. The table shows one row per registered agent with five columns:
+
+| Column | What it shows |
+|---|---|
+| **Agent ID** | Stable unique identifier rendered in monospace. |
+| **Name** | Human-readable name registered by the agent, or `-` if none. |
+| **Status** | Pill: `Online` (blue dot) when the agent is heartbeating, `Offline` (grey dot) otherwise. |
+| **Hardware** | Comma-separated list of attached drivers (for example `pluto`, `usrp`). |
+| **Last Heartbeat** | Local-time timestamp of the most recent heartbeat, or `Never`. |
+
+---
+
+## Step 3 — Bind an agent to an app
+
+A Screens app stores its source-side agent reference inside `dataSource.agent_id` on the manifest. To bind:
+
+1. Open the app from the [Application Gallery](/guides/screens/application-gallery/).
+2. Use the source panel's agent picker (the first source tile in the component grid).
+3. Pick an `Online` agent. The selection is committed via `POST /screens/<appid>/agent` and the Start button becomes enabled.
+
+You can also POST a JSON body of `{ "agent_id": "<id>" }` to the same endpoint to set the source agent programmatically.
+
+---
+
+## Step 4 — Bind a TX-side agent
+
+Apps that transmit through hardware additionally need a sink-side agent. Use the sink panel's picker, or `POST /screens/<appid>/sink-agent` with `{ "agent_id": "<id>" }`. The selection writes to `dataSink.agent_id` in the manifest.
+
+---
+
+## Status and heartbeat
+
+- **Online** means the agent sent a heartbeat within the controller's expected window.
+- **Offline** means the controller has not heard from the agent recently. Hardware that requires the agent will refuse to start until it returns.
+- The **Last Heartbeat** timestamp updates whenever the agent reports in. If it shows a stale value, restart the agent process and confirm network reachability to the controller.
+
+---
+
+## Stop TX without stopping RX
+
+When an app has both RX and TX active, you can drop just the transmit side by `POST /screens/<appid>/tx-stop`. The controller publishes a `tx_stop` instruction to the bound TX agent without killing the receive pipeline. The RX side keeps streaming until you click **Stop** for the whole app.
+
+---
+
+## Next steps
+
+- Run an agent-backed app — see [Run a Screens application](/guides/screens/app-runtime/).
+- Edit the app's `dataSource` parameters in the manifest — see [Screens Studio](/guides/screens/studio/).
