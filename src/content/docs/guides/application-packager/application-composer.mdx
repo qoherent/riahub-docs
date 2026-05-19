@@ -1,0 +1,217 @@
+---
+title: Application Composer
+description: Compose RIA Hub application graphs, pick a build target, and commit a deployable application JSON back into a repository.
+sidebar:
+  order: 1
+---
+
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import CodeBlock from '@components/docs/CodeBlock.astro';
+
+## Overview
+
+The **Application Composer** is a graph-based editor that turns trained model artifacts into an application JSON RIA Hub can deploy. You drop **blocks** onto a canvas, connect them with **edges** that describe the data flow, fill in each block's specs, and commit the result to a repository.
+
+The canvas is one piece of state; the application JSON committed to your target repository is another. The two are kept in sync by **Build Application** — Composer validates the graph, serializes the canvas, and commits the JSON (and, for the Screens target, a manifest and tarball) in a single action.
+
+**Use the Composer when you want to:**
+- Package a trained model into a deployable Screens application
+- Build a Holoscan inference application for a specific hardware target
+- Branch a single pipeline into multiple builds for different runtime targets
+- Edit an existing application JSON without leaving the browser
+
+**What the Composer produces:**
+- An **application JSON** committed to the target build repository
+- For the `ria-screens` target, a **Screens manifest** at `screens/<app-name>/manifest.json` and a packaged tarball uploaded to the same repository
+- Hardware-target metadata embedded in the JSON so the Engine Builder can pick the right runtime profile
+
+## What you'll need
+
+- A trained model artifact in a RIA Hub repository — see [Train a Model](/guides/model-builder/train-a-model/)
+- A target build repository that will receive the application JSON (you need write access)
+- A decision about your build target — RIA Hub Screens or one of the Holoscan profiles
+
+---
+
+## Step 1 — Open the Application Composer
+
+From the top navigation, open **Application Packager**, then click **Application Composer**. The Composer loads at `/application-packager/application-composer`.
+
+The header explains the surface in one line:
+
+> Compose application graphs, choose the build target, and commit generated application JSON back into a repository.
+
+An under-development banner is present at the top of the page. The Composer is stable for the Screens path but still evolving for the Holoscan targets.
+
+:::note
+An example Screens application is available in the public **RIA_Example** repository on every instance. Use it as a working reference if you want to see a complete graph before composing one of your own.
+:::
+
+---
+
+## Step 2 — Open an existing application or start a new one
+
+The Composer Controls toolbar exposes two entry points:
+
+- **Open Application** opens a dropdown of every Holoscan inference application discoverable in your Library. Each row shows the application file name and its branch. Selecting one loads the JSON onto the canvas and remembers the source repository.
+- **New Application** (visible only when the canvas is non-empty) opens a modal that lets you pick a target repository and enter a file name. The new JSON is committed to the `main` branch when you click **Create Application**.
+
+If no Holoscan applications appear in the dropdown, the empty-state copy reads `No Holoscan apps found.`
+
+---
+
+## Step 3 — Add blocks from the sidebar
+
+The right-hand **Available Blocks** sidebar groups every block the controller knows about by type. The groups are always ordered:
+
+1. `source`
+2. `preprocessing`
+3. `inference`
+4. `postprocessing`
+5. `sink`
+
+Drag any block onto the canvas. Each drop creates a new node at the cursor position. If the canvas is empty, the empty-canvas hint reminds you to drag blocks from the sidebar or use **Open Application** to load saved JSON.
+
+For the full catalog of validation rules and per-block requirements, see the [Application Composer reference](/guides/application-packager/application-composer-reference/).
+
+---
+
+## Step 4 — Connect blocks
+
+Drag from a source node's right-edge port to a target node's left-edge port to create an edge. A pipeline should read left-to-right:
+
+```
+source → preprocessing → inference → postprocessing → sink
+```
+
+Edges carry a `port_pairs` mapping from an output port name to an input port name. The default labels match the port names you connect — for example `out → in`. You can re-route an edge by deleting it and drawing a new one.
+
+---
+
+## Step 5 — Edit block specs
+
+Double-click any node to open the **Edit Node** modal. The form exposes:
+
+- **Name** and **Type** — the block's identifier and its category (`source`, `preprocessing`, `inference`, `postprocessing`, `sink`)
+- **Description** — free-form notes that ride along with the block in the JSON
+- **Specs** — every configurable parameter the block declares, with its default value editable inline
+
+Required specs must have a non-empty value before a build will succeed. The inference block, in particular, must have a non-empty `model_path_map` value — pointing at the trained `.onnx` artifact you want to run. Validation runs at build time and flags every empty required spec.
+
+---
+
+## Step 6 — Pick a target build repo and target profile
+
+The right side of the Composer Controls toolbar exposes two selectors:
+
+- **Target Build Repo** — the repository the application JSON will be committed to. The source repository is pre-populated when you open an application; you can switch to any other repository you can write to.
+- **Target Profile** — the runtime target the build is for.
+
+Composer ships with five target profiles:
+
+| Profile | Runtime |
+|---|---|
+| `ria-screens` | RIA Hub Screens (Web App) |
+| `nvidia-x86` | NVIDIA Linux x86_64 (TensorRT) |
+| `cpu-x86` | Generic Linux x86_64 (CPU only) |
+| `arm64` | ARM64 Linux (Jetson) |
+| `arm32` | Raspberry Pi 4 (ARM32) |
+
+The `cpu-x86` profile toggles a CPU-only build mode that drops GPU-specific operators from the manifest. The `ria-screens` profile triggers the Screens packaging path, which generates an extra Screens manifest alongside the application JSON.
+
+---
+
+## Step 7 — Build and commit
+
+Click **Build Application**. Composer runs pipeline validation first; if validation fails, a toast lists the error count and you can click it to see every violation. If validation passes, the build kicks off and a floating status message tracks progress.
+
+On success, the Composer:
+
+1. Serializes the current canvas to JSON.
+2. For the `ria-screens` target, generates a Screens manifest and tarball client-side, bumps the patch version, and uploads the artifacts.
+3. Populates the commit form below the canvas with the repository, branch, file path, and serialized JSON.
+
+The commit form is a standard RIA Hub editor — choose **Commit directly to this branch** or **Create a new branch** and click **Commit Changes**.
+
+<p>
+	<StatusLight label="Validation" status="ready" detail="all specs filled" /> <StatusLight label="Build" status="queued" detail="awaiting runner" /> <StatusLight label="Commit" status="running" detail="writing application JSON" />
+</p>
+
+---
+
+## Validation failures
+
+Composer rejects a build before it touches your repository. The four failures you will see most often:
+
+- A required spec is empty on any block.
+- An inference block has no `model_path_map`, or the path is empty or non-string.
+- The graph has no source block, or no sink block.
+- An edge points at an input or output port that does not exist on its node.
+
+The full rule set, including warnings and edge-integrity checks, is on the [reference page](/guides/application-packager/application-composer-reference/#validation-rules).
+
+<CollapsibleList
+	title="Common validation failures"
+	items={[
+		{ title: 'Empty required spec', body: 'Open the offending block, fill the spec the modal flags as Required, and rebuild. Globally optional specs (description, notes, headline) and inference-specific optional specs (in_tensor_names, out_tensor_names, allocator) are skipped automatically.' },
+		{ title: 'Missing model_path_map on inference block', body: 'Double-click the inference block and enter the path to the trained model. The value must be a non-empty string. Use the file selector in the toolbar to copy a repository-qualified reference to your clipboard.' },
+		{ title: 'Missing source or sink', body: 'Every pipeline must start with a source block and end with a sink block. Drag the missing block from the Available Blocks sidebar and connect it to the existing graph.' },
+		{ title: 'Edge references a missing port', body: 'Delete the edge that points at the unknown handle and redraw it from a valid output port to a valid input port. The validator lists the available ports in the error message.' },
+	]}
+	variant="checklist"
+	interactive
+/>
+
+---
+
+## Example application JSON
+
+A minimal serialized application has two top-level arrays — `ops` and `flows`:
+
+<CodeBlock
+	title="application.json (excerpt)"
+	lang="json"
+	code={`{
+  "app_name": "my_app.json",
+  "ops": [
+    {
+      "id": "RadioSource-1700000000000-001",
+      "name": "RadioSource",
+      "type": "source",
+      "class_name": "RadioSourceOp",
+      "specs": [
+        { "key": "sample_rate", "default": 20000000, "type": "double" }
+      ],
+      "inputs": [],
+      "outputs": [{ "name": "out", "type": "gxf::Entity" }]
+    },
+    {
+      "id": "OnnxInference-1700000000000-002",
+      "name": "OnnxInference",
+      "type": "inference",
+      "class_name": "OnnxInferenceOp",
+      "specs": [
+        { "key": "model_path_map", "default": "models/best.onnx", "type": "std::string" }
+      ],
+      "inputs": [{ "name": "in", "type": "gxf::Entity" }],
+      "outputs": [{ "name": "out", "type": "gxf::Entity" }]
+    }
+  ],
+  "flows": [
+    {
+      "upstream": "RadioSource-1700000000000-001",
+      "downstream": "OnnxInference-1700000000000-002",
+      "port_pairs": { "out": "in" }
+    }
+  ]
+}`}
+/>
+
+---
+
+## Next steps
+
+- Run the packaged app — see [Run a Screens application](/guides/screens/app-runtime/).
+- Look up a block, spec, or target-profile detail — see the [Application Composer reference](/guides/application-packager/application-composer-reference/).
+- Tighten the runtime layout without rebuilding — see [Screens Studio](/guides/screens/studio/).
