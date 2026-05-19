@@ -1,8 +1,51 @@
 ---
 title: Application Packager
-description: Turn trained model artifacts into deployable RIA Hub applications.
+description: Turn trained model artifacts into deployable RIA Hub applications using the graph-based Application Composer.
 sidebar:
   order: 0
 ---
 
-This is a stub. Content will be added in a follow-up step.
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import SectionCard from '@components/docs/SectionCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+
+The **Application Packager** turns a trained model artifact into a deployable RIA Hub application. You compose a pipeline graph on a canvas, choose a runtime target, and commit a generated application JSON back to a repository. For the RIA Hub Screens target, the Packager also produces a Screens manifest and tarball so the app is ready to run.
+
+Screens is one of several build targets — the Packager can also produce Holoscan inference applications for NVIDIA, generic CPU, ARM64, and ARM32 runtimes.
+
+## Modules
+
+{/* TODO: Add an Engine Builder row once that guide ships. */}
+
+| Module | What it does |
+|--------|-------------|
+| [Application Composer](/guides/application-packager/application-composer/) | Compose application graphs from source, preprocessing, inference, postprocessing, and sink blocks, validate the pipeline, and commit the generated application JSON to a repository |
+| [Application Composer reference](/guides/application-packager/application-composer-reference/) | Block types, target profiles, validation rules, and generated artifacts |
+
+## Prerequisites
+
+- A **trained model artifact** in a RIA Hub repository — see [Train a Model](/guides/model-builder/train-a-model/). For most workflows this is a `.onnx` file.
+- **Write access** to the target build repository that will receive the application JSON.
+- A **target profile** decision. The Composer defaults to `ria-screens`; choose another profile only if you are packaging for a Holoscan runtime.
+
+<div class="ria-grid">
+	<SectionCard eyebrow="build" title="Build artifact" accent="deploy" summary="Compose source, preprocessing, inference, postprocessing, and sink blocks into a graph that targets a specific runtime.">
+		The canvas serializes to an application JSON the runtime consumes.
+	</SectionCard>
+	<SectionCard eyebrow="validate" title="Validate" accent="train" summary="Pipeline validation rejects missing model paths, empty required specs, and edges pointing at unknown ports.">
+		Validation runs before any artifact is committed.
+	</SectionCard>
+	<SectionCard eyebrow="commit" title="Commit" accent="data" summary="A successful build commits the application JSON to your target repo, plus a manifest and tarball for the Screens target.">
+		The Screens runtime reads the manifest from `screens/<app-name>/manifest.json`.
+	</SectionCard>
+</div>
+
+<p>
+	<StatusLight label="Composer" status="ready" detail="canvas idle" /> <StatusLight label="Validation" status="queued" detail="runs at build" /> <StatusLight label="Build" status="stopped" detail="awaiting trigger" />
+</p>
+
+## How it works
+
+The Packager sits between Model Builder and the runtime stages of the pipeline. It consumes a trained artifact, packages it with a pipeline graph that describes how data flows through it, and writes the result back to a repository the runtime can pull from. Screens picks up the manifest immediately; Holoscan targets feed downstream build infrastructure.
+
+<PipelineGraph workflow="capture-to-screens" activeNode="package" />
