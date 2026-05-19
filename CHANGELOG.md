@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-05-19
+
+- Added an Application Packager sidebar group with an index, the Application Composer start guide, and a reference page that catalogs block types, target profiles, validation rules, and Screens build artifacts.
+- Added a RIA Screens sidebar group with an index, the Application Gallery, App runtime, Remote Agents, Screens Studio start guides, and the Studio component catalog reference.
+- Rewrote the Package an Application and Screens App tutorials as short end-to-end journeys that link into the new feature guides.
+- Repointed the `package` and `screens` workflow nodes in `src/data/docsWorkflows.ts` at the new feature-guide indexes (`/guides/application-packager/` and `/guides/screens/`) so `PipelineGraph` deep links land on feature pages, not tutorials.
+- Linked the Model Builder "Application Packager" next-steps bullet to `/guides/application-packager/`.
+- Restored `src/styles/custom.css` (referenced by Starlight `customCss` but accidentally deleted in a prior commit) so `npm run build` succeeds.
+
 ## 2026-05-12
 
 - Added Svelte support behind Astro wrappers, TypeScript path aliases, Starlight custom CSS, and docs-owned RIA Hub assets under `public/ria/`.
