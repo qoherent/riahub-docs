@@ -275,3 +275,4 @@ Everything else — skip fraction, binning, augmentation, metadata selection, an
 
 - **Inspect the result** — [Inspecting a Dataset](/guides/dataset-manager/inspector/) checks class balance, per-class statistics, and anomalies in the curated dataset before you train.
 - **Train a model** — Once inspection passes, take the dataset to [Model Builder](/guides/model-builder/train-a-model/) to configure and launch a training run.
+- **Example files** — The [RIA_Example repository](https://riahub.ai/qoherent/RIA_Example) includes synthetic SigMF recordings and a reference `curator-configs/example_curator_config.json` you can use to follow this guide without real hardware.

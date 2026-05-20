@@ -194,3 +194,4 @@ Check these in order:
 
 - **Hyperparameter optimisation** — open **Model Builder → HPO** to run an Optuna sweep across learning rate, batch size, and architecture variants
 - **Edge deployment** — take the `best.onnx` to the **Application Packager** to build a Holoscan inference application and deploy it to a registered Screens agent
+- **Example files** — The [RIA_Example repository](https://riahub.ai/qoherent/RIA_Example) includes a pre-curated `Datasets/example_radio_dataset.h5` and example `.ckpt`/`.onnx` model files, and a ready-to-adapt `train.yaml` workflow.
