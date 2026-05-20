@@ -107,3 +107,4 @@ When you open the Curator and reach **Step 2 — Select recordings**, the record
 - **Review and label recordings** — [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/) covers automatic labels from Campaign Control and manual SigMF annotation.
 - **Curate a dataset** — When recordings are reviewed and labelled, take them to the [Curator](/guides/dataset-manager/curation/) to slice, qualify, and package them into a training-ready HDF5 file.
 - **Upload recordings** — If your recordings aren't in RIA Hub yet, see [Working with Git LFS](/guides/platform/lfs-and-uploads/) for upload options and size limits.
+- **Example files** — The [RIA_Example repository](https://riahub.ai/qoherent/RIA_Example) contains synthetic SigMF recordings (BPSK, QPSK, QAM16) you can push to your own repository to try the Library and Curator without collecting real data.
