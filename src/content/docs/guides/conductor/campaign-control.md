@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-## Overview
-
 **Campaign Control** automates controlled RF capture experiments. It coordinates a receiver SDR (which records IQ data), one or more transmitters (which emit the signals you want to capture), per-step quality checks, and optional upload to a RIA Hub repository — all from a single campaign configuration.
 
 A campaign is defined as a sequence of **steps**. At each step, the conductor activates a transmitter under specified conditions (channel, bandwidth, traffic type, power), records IQ data from the SDR for a set duration, then runs QA checks on the result before moving to the next step. You can define steps manually or use **sweep mode** to auto-generate a grid across power and bandwidth ranges.

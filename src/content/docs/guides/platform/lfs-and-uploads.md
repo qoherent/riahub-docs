@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-## Overview
-
 RIA Hub uses **Git Large File Storage (LFS)** to store all large binary assets — recordings, datasets, and model files. LFS keeps your git repository fast and lightweight by storing the actual file content in a separate object store, while committing only a small pointer file (a few hundred bytes) in the git history.
 
 **Why this matters for you:**
@@ -146,3 +144,11 @@ git push
 ```
 
 Git LFS intercepts the push, uploads the binary content to RIA Hub's LFS store, and commits only the pointer files to the git history. After the push completes, the files are automatically indexed in the Library.
+
+---
+
+## Next steps
+
+- **Browse your files** — Open the [Library](/guides/platform/library/) to confirm files are indexed and inspect recordings with the built-in spectrogram and constellation viewers.
+- **Review and label** — [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/) explains how to inspect quality and add SigMF annotations before curating.
+- **Build a dataset** — When recordings are labelled, use the [Curator](/guides/dataset-manager/curation/) to slice and qualify them into an HDF5 training dataset.

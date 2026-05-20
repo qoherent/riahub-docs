@@ -1,0 +1,176 @@
+/* ============================================================
+   Sidebar — hover / active text contrast
+   ============================================================ */
+
+/* In light mode Starlight sets --sl-color-white to a dark value, which
+   means hover text on the sidebar is fine once the backgrounds are correct.
+   These rules make the active-page highlight readable in both themes. */
+.sidebar-pane nav a:hover,
+.sidebar-pane nav a:focus {
+	color: var(--sl-color-white);
+	text-decoration: none;
+}
+
+[aria-current='page'],
+[aria-current='page']:hover,
+[aria-current='page']:focus {
+	color: var(--sl-color-text-invert) !important;
+	background-color: var(--sl-color-text-accent) !important;
+}
+
+/* ============================================================
+   Sidebar — group label readability
+   ============================================================ */
+
+/* Section headings in the sidebar (e.g. "Getting Started", "Tutorials")
+   use --sl-color-white which Starlight correctly maps to a dark value in
+   light mode, but applying an explicit dark override prevents any bleed. */
+:root[data-theme='light'] .group-label .large {
+	color: var(--sl-color-gray-1);
+}
+
+/* ============================================================
+   Top nav — light-mode colours
+   ============================================================ */
+
+/* When --sl-color-bg-nav is white the nav icons / selects inherit a dark
+   default text colour.  Boost contrast on hover explicitly. */
+:root[data-theme='light'] .site-title,
+:root[data-theme='light'] .site-title * {
+	color: var(--sl-color-gray-1);
+}
+
+:root[data-theme='light'] header .sl-flex a,
+:root[data-theme='light'] header nav a {
+	color: var(--sl-color-gray-2);
+}
+
+:root[data-theme='light'] header .sl-flex a:hover,
+:root[data-theme='light'] header nav a:hover {
+	color: var(--sl-color-gray-1);
+}
+
+/* ============================================================
+   Theme-select button — visible hover state (both modes)
+   ============================================================ */
+
+starlight-theme-select label {
+	border-radius: 6px;
+	padding: 0.15rem 0.3rem;
+	transition: background 160ms ease, color 160ms ease;
+}
+
+starlight-theme-select label:hover {
+	background: rgba(128, 128, 128, 0.14);
+}
+
+:root[data-theme='light'] starlight-theme-select label {
+	color: var(--sl-color-gray-2);
+}
+
+:root[data-theme='light'] starlight-theme-select label:hover {
+	background: rgba(0, 0, 0, 0.07);
+	color: var(--sl-color-gray-1);
+}
+
+/* ============================================================
+   Code blocks — light-mode readability
+   ============================================================ */
+
+/* Expressive Code (fenced code blocks in markdown) automatically uses
+   data-theme selectors when two themes are configured.  These rules are a
+   belt-and-suspenders fallback for the custom CodeBlock.astro component
+   which uses Shiki's dual-theme CSS-variable output. */
+
+/* Default → dark theme token colours */
+.astro-code,
+.astro-code span {
+	color: var(--shiki-dark);
+	font-style: var(--shiki-dark-font-style);
+	font-weight: var(--shiki-dark-font-weight);
+	text-decoration: var(--shiki-dark-text-decoration);
+}
+
+/* Light mode → light theme token colours */
+:root[data-theme='light'] .astro-code,
+:root[data-theme='light'] .astro-code span {
+	color: var(--shiki-light) !important;
+	font-style: var(--shiki-light-font-style) !important;
+	font-weight: var(--shiki-light-font-weight) !important;
+	text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+/* Inline code in content area */
+:root[data-theme='light'] .sl-markdown-content code:not(pre code) {
+	background: var(--sl-color-bg-inline-code);
+	color: var(--sl-color-text);
+}
+
+/* ============================================================
+   Expressive Code frames — light mode border/background
+   ============================================================ */
+
+:root[data-theme='light'] .expressive-code .frame {
+	border-color: var(--ria-border-subtle);
+}
+
+:root[data-theme='light'] .expressive-code pre {
+	background-color: var(--ria-code-bg) !important;
+}
+
+/* ============================================================
+   Collapsible section headings
+   ============================================================ */
+
+.sl-markdown-content details.ria-section {
+	margin-top: 1.5em;
+	margin-bottom: 0;
+}
+
+.sl-markdown-content details.ria-section > summary.ria-section-heading {
+	list-style: none;
+	cursor: pointer;
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	border-bottom: 1px solid var(--ria-border-subtle);
+	padding-bottom: 0.5rem;
+	user-select: none;
+}
+
+.sl-markdown-content details.ria-section > summary.ria-section-heading::-webkit-details-marker,
+.sl-markdown-content details.ria-section > summary.ria-section-heading::marker {
+	display: none;
+	content: '';
+}
+
+/* Chevron indicator */
+.sl-markdown-content details.ria-section > summary.ria-section-heading::before {
+	content: '';
+	display: inline-block;
+	flex-shrink: 0;
+	width: 0.45em;
+	height: 0.45em;
+	border-right: 0.15em solid var(--sl-color-text-accent);
+	border-bottom: 0.15em solid var(--sl-color-text-accent);
+	transform: rotate(-45deg) translateY(0.5em);
+	transition: transform 200ms ease;
+}
+
+.sl-markdown-content details.ria-section[open] > summary.ria-section-heading::before {
+	transform: rotate(45deg) translateY(0.1em);
+}
+
+/* The .sl-heading-wrapper inside summary takes up remaining width */
+.sl-markdown-content details.ria-section > summary.ria-section-heading > .sl-heading-wrapper {
+	flex: 1;
+	margin-top: 0 !important;
+}
+
+.sl-markdown-content details.ria-section > summary.ria-section-heading:hover {
+	opacity: 0.82;
+}
+
+.sl-markdown-content details.ria-section > .ria-section-body {
+	padding-top: 0.75rem;
+}

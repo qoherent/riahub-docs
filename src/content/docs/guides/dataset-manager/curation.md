@@ -3,8 +3,6 @@ title: Curating a Dataset
 description: Turn raw RF recordings into a labeled, production-ready HDF5 dataset using the RIA Hub Curator.
 ---
 
-## Overview
-
 The **Curator** transforms raw RF recordings stored in RIA Hub into structured HDF5 datasets ready for model training. It takes you through a multi-step wizard that controls every stage of the signal processing pipeline: how recordings are sliced into fixed-length examples, how low-quality slices are filtered out, and whether augmentation is applied to expand the dataset.
 
 **Use the Curator when you want to:**
@@ -270,3 +268,10 @@ If you want to run the simplest possible curation job, you only need to fill in:
 5. Qualifier type (RMS with auto-threshold requires no extra input)
 
 Everything else — skip fraction, binning, augmentation, metadata selection, and backend — has a sensible default and can be left as-is.
+
+---
+
+## Next steps
+
+- **Inspect the result** — [Inspecting a Dataset](/guides/dataset-manager/inspector/) checks class balance, per-class statistics, and anomalies in the curated dataset before you train.
+- **Train a model** — Once inspection passes, take the dataset to [Model Builder](/guides/model-builder/train-a-model/) to configure and launch a training run.
