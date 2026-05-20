@@ -52,9 +52,10 @@
 	--ria-text-primary: #0f172a;
 	--ria-text-secondary: #334155;
 	--ria-text-muted: #64748b;
-	--ria-code-bg: #e2e8f0;
+	--ria-code-bg: #f1f5f9;
 	--ria-shadow-panel: 0 16px 38px rgba(15, 23, 42, 0.1);
 	--ria-shadow-panel-hover: 0 24px 48px rgba(15, 23, 42, 0.14);
+	--sl-color-bg-nav: #ffffff;
 }
 
 html {

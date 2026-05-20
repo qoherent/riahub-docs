@@ -3,8 +3,6 @@ title: Inspecting a Dataset
 description: Use the RIA Hub Inspector to analyze class balance, per-class signal statistics, and data quality in your datasets.
 ---
 
-## Overview
-
 The **Dataset Inspector** analyses an HDF5 dataset stored in RIA Hub and surfaces statistics and quality indicators across several dimensions. Analyses run as background jobs and results are returned as tables and summary metrics directly in the browser.
 
 **Use the Inspector when you want to:**
@@ -111,3 +109,10 @@ Select the datasets to compare, choose which metrics to include, and run the com
 ## Step 8 — Diff two dataset versions (optional)
 
 The **Diff** section shows what changed between two versions of a dataset. Use this when you've re-curated or re-generated a dataset and want a systematic account of what's different.
+
+---
+
+## Next steps
+
+- **Train a model** — When class balance and signal statistics look good, take the dataset to the [Model Builder](/guides/model-builder/train-a-model/) to launch a training run.
+- **Re-curate if needed** — If the dataset has class imbalance or quality issues, return to the [Curator](/guides/dataset-manager/curation/) to adjust the slicer, qualifier, or recording selection.

@@ -3,8 +3,6 @@ title: Synthesizing a Dataset
 description: Generate labeled synthetic RF signal datasets using the RIA Hub Dataset Generator.
 ---
 
-## Overview
-
 The **Dataset Generator** creates labelled collections of simulated RF signals, ready for training modulation-recognition models. Instead of collecting real recordings, you configure the modulations, channel conditions, and sampling strategy you want — and RIA Hub generates the samples entirely in software.
 
 Each example is a fixed-length IQ sample array paired with a class label (the modulation type). You control the signal pipeline end-to-end: modulation family and scheme, pulse-shaping filter, channel model (AWGN, Rayleigh fading, or clean), SNR range, and whether samples are drawn on a grid, randomly, or balanced across classes.
@@ -119,3 +117,10 @@ When generation finishes, you can:
 
 - **Download** — Save the HDF5 file to your local machine.
 - **Commit to repository** — Store the dataset in your RIA Hub repository under version control. This is the recommended workflow: the file is versioned, associated with its generation parameters, and accessible to your team.
+
+---
+
+## Next steps
+
+- **Inspect the dataset** — Run the [Dataset Inspector](/guides/dataset-manager/inspector/) to check class balance and per-class signal statistics before committing to a training run.
+- **Train a model** — When the dataset looks good, take it to the [Model Builder](/guides/model-builder/train-a-model/) to configure and launch a training workflow.

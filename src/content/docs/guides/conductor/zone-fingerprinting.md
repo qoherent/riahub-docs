@@ -5,8 +5,6 @@ sidebar:
   order: 3
 ---
 
-## Overview
-
 The **Zone Fingerprinting Demo** uses a trained ONNX model to identify which enrolled device is currently transmitting, in real time, by analysing the unique RF characteristics of each device's signal.
 
 Every radio transmitter has subtle hardware imperfections — slight frequency offsets, non-linearities, and noise floor signatures — that act like a fingerprint. A model trained on enough labelled captures of a device can learn to recognise it even when the modulation scheme or channel conditions change. The demo puts that capability in front of a live SDR feed and shows you detections as they happen.
@@ -152,3 +150,10 @@ The **Enrolled Devices** table updates in real time — a device row turns green
 ### Stop inference
 
 Click **Stop Inference** to end the session. The SDR connection is released and the inference process stops. Model configuration is preserved so you can restart quickly.
+
+---
+
+## Next steps
+
+- **Collect more data** — Use [Campaign Control](/guides/conductor/campaign-control/) to run a new capture campaign and expand the training set, then retrain via the [Training Dashboard](/guides/conductor/training-dashboard/).
+- **Review recordings** — Inspect captured signal quality in the [Library](/guides/platform/library/) before committing them to a curation run.

@@ -23,7 +23,7 @@ const copyLabel = title ? 'Copy ' + title : 'Copy code';
 			</svg>
 		</button>
 	</figcaption>
-	<Code code={codeText} lang={lang} theme="github-dark" />
+	<Code code={codeText} lang={lang} themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
 </figure>
 
 <script>

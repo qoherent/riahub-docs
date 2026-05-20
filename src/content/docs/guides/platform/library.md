@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-## Overview
-
 The **Library** is RIA Hub's central catalogue of all assets stored across your repositories. Any file committed to a repository that RIA Hub recognises — a recording, a dataset, a trained model — is automatically indexed and made searchable here, with metadata extracted and thumbnails generated without any extra steps from you.
 
 **The Library is where you:**
@@ -98,3 +96,11 @@ The LFS pointer is created in the target repository, pointing at the same underl
 :::tip
 This is useful for promoting curated datasets from a working repository into a shared or published repository, or for copying a trained model into the repository used by the Zone Fingerprinting Demo.
 :::
+
+---
+
+## Next steps
+
+- **Review and label recordings** — [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/) explains how to inspect quality and add annotations before curating.
+- **Build a dataset** — [Curating a Dataset](/guides/dataset-manager/curation/) turns labelled recordings into a training-ready HDF5 dataset.
+- **Upload large files** — [Working with Git LFS](/guides/platform/lfs-and-uploads/) covers file size limits and how to push assets from your local machine.

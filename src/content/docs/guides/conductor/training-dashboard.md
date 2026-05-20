@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-## Overview
-
 The **Training Dashboard** lets you kick off and monitor model training runs directly from RIA Hub, without leaving the browser. Training is executed as a **GitHub Actions workflow** in a repository you control — the dashboard handles triggering the run, streaming back live job status, and surfacing model performance metrics once training completes.
 
 The dashboard is designed around the zone fingerprinting workflow: you specify which device IDs to include as classes, trigger the workflow, and watch the run progress step by step. After a successful run, a model comparison table shows accuracy, F1 score, and inference time for each model variant produced.
@@ -98,3 +96,10 @@ The dashboard refreshes automatically every few seconds while a run is active.
 Once a run completes successfully, a **Model Comparison** table appears showing metrics for each model variant produced by the workflow (accuracy, F1 score, inference time, and whether the model supports incremental updates).
 
 Use these metrics to decide which model to load into the [Zone Fingerprinting Demo](/guides/conductor/zone-fingerprinting/).
+
+---
+
+## Next steps
+
+- **Run live inference** — Load the best model variant into the [Zone Fingerprinting Demo](/guides/conductor/zone-fingerprinting/) to identify devices against a live SDR feed.
+- **Access model artifacts** — Trained files are committed to your repository and indexed in the [Library](/guides/platform/library/) where you can download or move them.

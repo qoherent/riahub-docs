@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-## Overview
-
 Before you can curate a dataset or train a model, you need recordings in the RIA Hub Library. This guide covers the two ways to produce SigMF recordings using the **RIA Toolkit** command-line interface:
 
 - **Synthetic generation** — produce mathematically clean IQ signals with known labels and controlled SNR, using `ria synth`
@@ -26,10 +24,6 @@ If you want a fully in-browser, no-CLI workflow, the **Dataset Manager → Gener
   ```
 - A RIA Hub repository with Git LFS initialised — see [Working with Git LFS](/guides/platform/lfs-and-uploads/)
 - For live capture: one supported SDR device connected (PlutoSDR, HackRF One, BladeRF, USRP, RTL-SDR, or ThinkRF)
-
-sidebar:
-  order: 2
----
 
 ## Part 1 — Synthetic generation with `ria synth`
 
@@ -137,10 +131,6 @@ The `-m label=<value>` flag writes `label` into the SigMF `global` block. This i
 Add `--iq-amp-imbalance` and `--iq-phase-imbalance` to simulate receiver hardware imperfections, or `--multipath-paths` and `--multipath-max-delay` for fading channels. These make the dataset harder but produce more robust models.
 :::
 
-sidebar:
-  order: 2
----
-
 ## Part 2 — Live SDR capture with `ria capture`
 
 `ria capture` streams IQ samples from a connected SDR device and writes a SigMF file. The toolkit handles device initialisation, sample streaming, and metadata creation automatically.
@@ -195,10 +185,6 @@ ria capture --device pluto --ident 192.168.2.2 --frequency 915e6 --sample-rate 1
 ```
 
 For a multi-step campaign (changing transmitter state between captures), see [Campaign Control](/guides/conductor/campaign-control/).
-
-sidebar:
-  order: 2
----
 
 ## Part 3 — Pushing recordings to RIA Hub
 

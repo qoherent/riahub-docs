@@ -17,6 +17,20 @@ export default defineConfig({
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/qoherent/riahub-docs' }],
 			customCss: ['./src/styles/custom.css', './src/styles/ria-docs.css'],
+			expressiveCode: {
+				themes: ['github-dark', 'github-light'],
+				styleOverrides: {
+					frames: {
+						terminalTitlebarDotsOpacity: '0',
+					},
+				},
+			},
+			head: [
+				{
+					tag: 'script',
+					attrs: { src: '/collapsible-headings.js', defer: true },
+				},
+			],
 			sidebar: [
 				{
 					label: 'Getting Started',

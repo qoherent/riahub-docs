@@ -9,7 +9,6 @@ import PipelineGraph from '@components/docs/PipelineGraph.astro';
 import InteractiveCards from '@components/docs/InteractiveCards.astro';
 import MetricGraph from '@components/docs/MetricGraph.astro';
 import StatusLight from '@components/docs/StatusLight.astro';
-import YouTubeEmbed from '@components/docs/YouTubeEmbed.astro';
 import CollapsibleList from '@components/docs/CollapsibleList.astro';
 import { trainingCurveExample, modelComparisonExample } from '@data/trainingExamples';
 
@@ -48,4 +47,7 @@ Model Builder selects repository, runner, dataset, model template, and mode, the
 	variant="panel"
 />
 
-<YouTubeEmbed id="aqz-KE-bpKQ" title="Training run walkthrough placeholder" caption="Replace this placeholder with the RIA Hub training walkthrough when available." />
+## Next steps
+
+- **Package the model** — Take the exported artifact to [Package an Application](/guides/tutorials/package-an-application/) to connect it into a deployable pipeline.
+- **Run live inference** — If working with the Conductor fingerprinting workflow, load the ONNX model into the [Zone Fingerprinting Demo](/guides/conductor/zone-fingerprinting/).

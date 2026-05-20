@@ -1,9 +1,9 @@
 ---
 title: Reviewing and Labelling Recordings
 description: Visually inspect recordings in the Library, understand how labels are set at capture time, and manually add or correct labels in SigMF metadata files.
+sidebar:
+  order: 1
 ---
-
-## Overview
 
 Before recordings can be curated into a training dataset, they need to be reviewed for quality and — if they weren't captured in a controlled campaign — labelled with the signal content they contain.
 

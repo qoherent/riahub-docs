@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-## Overview
-
 The Model Builder generates a training workflow from a form and commits it to your repository. When the push lands, Gitea Actions triggers the workflow on your chosen runner and executes training. Artifacts are uploaded to the Actions run for you to download when training completes.
 
 **Use the Model Builder when you want to:**
