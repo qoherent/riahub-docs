@@ -1,0 +1,47 @@
+---
+title: Basic Training Materials
+description: Learn the vocabulary and dataset checks needed before using Model Builder.
+sidebar:
+  order: 4
+---
+
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import { classBalanceExample, trainingCurveExample } from '@data/trainingExamples';
+
+export const vocabularyCards = [
+	{ id: 'recording', title: 'Recording', eyebrow: 'source', summary: 'A raw RF capture or generated signal file.', details: 'Recordings usually enter through Library storage and become source material for slicing.', accent: 'data' },
+	{ id: 'dataset', title: 'Radio Dataset', eyebrow: 'data', summary: 'A structured collection of labeled examples.', details: 'The dataset is what Model Builder consumes after curation and inspection.', accent: 'data' },
+	{ id: 'slice', title: 'Slice', eyebrow: 'label', summary: 'A useful interval extracted from a recording.', details: 'Slices carry labels, qualifiers, and metadata for the training target.', accent: 'data' },
+	{ id: 'qualifier', title: 'Qualifier', eyebrow: 'metadata', summary: 'A condition or attribute attached to a slice.', details: 'Qualifiers help distinguish scenarios, devices, modulation details, or known constraints.', accent: 'runner' },
+	{ id: 'template', title: 'Model Template', eyebrow: 'train', summary: 'A configured training path such as a WavesFM workflow.', details: 'Templates connect dataset adapters, transforms, and runner execution.', accent: 'train' },
+	{ id: 'foundation', title: 'Foundation Model', eyebrow: 'model', summary: 'A pretrained base that can be adapted for RF tasks.', details: 'Foundation paths can reduce training effort when the dataset and target match the expected transform pipeline.', accent: 'train' },
+];
+
+## Training Vocabulary
+
+<InteractiveCards title="Core terms" cards={vocabularyCards} defaultSelected="recording" />
+
+## What Makes a Dataset Trainable
+
+A trainable dataset has labels, splits, consistent sample shape, metadata, and enough examples for the target class or scenario. The WavesFM path adds adapter and transform expectations, so mismatched input shape or missing label fields should be fixed before launching a run.
+
+<MetricGraph {...classBalanceExample} />
+
+<MetricGraph {...trainingCurveExample} />
+
+<CollapsibleList
+	title="Training gotchas"
+	items={[
+		{ title: 'Labels are missing or too broad', body: 'Define the target label before slicing so the dataset can be evaluated consistently.' },
+		{ title: 'Sample shapes are inconsistent', body: 'Check that transforms produce the expected tensor shape for the selected model template.' },
+		{ title: 'Metadata is incomplete', body: 'Keep source OIDs, branch, directory, and qualifier information attached to examples.' },
+	]}
+	variant="panel"
+/>
+
+## Next steps
+
+- **Inspect the dataset** — [Inspect a Dataset](/guides/tutorials/inspect-a-dataset/) walks through balance analysis and anomaly detection before launching a run.
+- **Train a model** — When the dataset passes inspection, continue to [Train a Model](/guides/tutorials/train-a-model/).

@@ -1,0 +1,89 @@
+---
+title: Docs Components
+description: Reusable RIA Hub documentation components for MDX authors.
+draft: true
+---
+
+import SectionCard from '@components/docs/SectionCard.astro';
+import StatCard from '@components/docs/StatCard.astro';
+import TerminalCard from '@components/docs/TerminalCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import SignalMeter from '@components/docs/SignalMeter.astro';
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+import YouTubeEmbed from '@components/docs/YouTubeEmbed.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import BrandPanel from '@components/docs/BrandPanel.astro';
+import CodeBlock from '@components/docs/CodeBlock.astro';
+import { prerequisites, buildOutcomeCards } from '@data/onboarding';
+import { classBalanceExample, trainingCurveExample } from '@data/trainingExamples';
+
+## Static Components
+
+Use these Astro components directly from MDX when a page needs richer explanation blocks without browser hydration.
+
+<BrandPanel tagline="Use the brand panel when a page needs the copied RIA Hub marks to anchor a major workflow overview." />
+
+<div class="ria-grid">
+	<SectionCard eyebrow="data" title="Curate radio examples" accent="data" summary="Collect source recordings, slice useful intervals, and attach labels before a model run.">
+		Use this pattern for guides that describe a workflow stage.
+	</SectionCard>
+	<SectionCard eyebrow="train" title="Launch a model run" accent="train" summary="Show the runner, template, mode, and artifact handoff in one compact panel.">
+		Section cards can link to deeper pages when `href` is set.
+	</SectionCard>
+</div>
+
+<div class="ria-grid">
+	<StatCard label="Curated slices" value="128" detail="Example count ready for a training split." accent="data" />
+	<StatCard label="Export target" value="ONNX" detail="Packaging expects a model artifact path." accent="train" />
+	<StatCard label="Screens panels" value="4" detail="Manifest components shown at runtime." accent="deploy" />
+</div>
+
+<p>
+	<StatusLight label="Runner" status="running" detail="polling every 5s" /> <StatusLight label="Screens app" status="ready" detail="manifest loaded" />
+</p>
+
+<SignalMeter label="SNR preview" value={82} detail="Use meters for signal quality, confidence, or run progress examples." />
+
+<TerminalCard
+	title="Install local docs dependencies"
+	command={`npm install
+npm run dev`}
+	result="Local server ready at http://localhost:4321"
+/>
+
+<CodeBlock
+	title="StatusLight usage"
+	lang="mdx"
+	code={`import StatusLight from '@components/docs/StatusLight.astro';
+
+<StatusLight label="Runner" status="running" detail="polling every 5s" />`}
+/>
+
+<CalloutPanel title="Authoring rule">
+	Import Astro wrappers from `@components/docs/*`. Do not import Svelte islands directly from MDX.
+</CalloutPanel>
+
+## Interactive Components
+
+These components keep Svelte behind Astro wrappers. They server-render useful content first, then hydrate only the interactive surface.
+
+<YouTubeEmbed id="aqz-KE-bpKQ" title="Training walkthrough placeholder" caption="The iframe is not present until the play button is activated." />
+
+<CollapsibleList
+	title="Before a training run"
+	intro="Use the enhanced version for checklist-style prerequisites."
+	items={prerequisites}
+	variant="checklist"
+	interactive
+/>
+
+<InteractiveCards title="What the journey produces" cards={buildOutcomeCards} defaultSelected="dataset" />
+
+<PipelineGraph workflow="capture-to-screens" activeNode="curate" />
+
+<MetricGraph {...classBalanceExample} />
+
+<MetricGraph {...trainingCurveExample} />

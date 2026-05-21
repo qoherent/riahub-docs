@@ -1,0 +1,183 @@
+---
+title: Use components in a new doc
+description: Add an MDX docs page, embed static and interactive components, and create a reusable docs component.
+draft: true
+---
+
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+import CodeBlock from '@components/docs/CodeBlock.astro';
+import SectionCard from '@components/docs/SectionCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+
+## Start with MDX
+
+Use `.mdx` when a page needs imports, JSX, or reusable docs components. Use plain `.md` only for prose-only pages.
+
+<div class="ria-grid">
+	<SectionCard eyebrow="path" title="Guide page" accent="data" summary="A file under `src/content/docs/guides/` appears in the Guides section.">
+		`src/content/docs/guides/capture-checklist.mdx` builds as `/guides/capture-checklist/`.
+	</SectionCard>
+	<SectionCard eyebrow="path" title="Reference page" accent="runner" summary="A file under `src/content/docs/reference/` appears in the Reference section.">
+		`src/content/docs/reference/use-components-in-a-new-doc.mdx` builds as `/reference/use-components-in-a-new-doc/`.
+	</SectionCard>
+</div>
+
+<p>
+	<StatusLight label="Authoring format" status="ready" detail=".mdx imports components" />
+</p>
+
+## Sample Page
+
+Create a file such as `src/content/docs/guides/capture-checklist.mdx`. Static components render HTML at build time. Interactive components use Astro wrappers that decide when Svelte hydrates.
+
+<CodeBlock
+	title="src/content/docs/guides/capture-checklist.mdx"
+	lang="mdx"
+	code={String.raw`---
+title: Capture checklist
+description: Prepare a recording and confirm the workflow handoff.
+---
+
+import SectionCard from '@components/docs/SectionCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import TerminalCard from '@components/docs/TerminalCard.astro';
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import { buildOutcomeCards } from '@data/onboarding';
+
+## Before capture
+
+<div class="ria-grid">
+	<SectionCard eyebrow="source" title="Choose a recording" accent="data" summary="Start from a source file, hardware capture, or synthetic run.">
+		Use the summary for the one-sentence reason this step matters.
+	</SectionCard>
+	<SectionCard eyebrow="runner" title="Confirm capacity" accent="runner" summary="Check that the team runner can process the next job.">
+		Keep operational checks close to the workflow step that needs them.
+	</SectionCard>
+</div>
+
+<p>
+	<StatusLight label="Repository" status="ready" detail="access confirmed" />
+	<StatusLight label="Runner" status="queued" detail="capacity required" />
+</p>
+
+<TerminalCard
+	title="Start the docs locally"
+	command="npm run dev"
+	result="Open http://localhost:4321/guides/capture-checklist/"
+/>
+
+## Workflow view
+
+<PipelineGraph workflow="capture-to-screens" activeNode="capture" />
+
+<InteractiveCards title="Expected outputs" cards={buildOutcomeCards} defaultSelected="dataset" />`}
+/>
+
+<CalloutPanel title="Hydration rule">
+	Import interactive Astro wrappers from `@components/docs/*`. Do not import Svelte island files directly from MDX.
+</CalloutPanel>
+
+## Static And Interactive Components
+
+Static components are best for reusable presentation: cards, callouts, status chips, signal meters, terminal snippets, and code examples. They produce normal HTML during the build.
+
+Interactive components are for stateful reading surfaces: selectable cards, expandable lists, workflow graphs, metric graphs, and lazy media. The MDX page still imports an Astro wrapper; the wrapper owns the Svelte island and hydration directive.
+
+## Create Your Own Component
+
+Add reusable authoring components under `src/components/docs/`. Keep the public API simple: props should be plain strings, numbers, arrays, or data objects that are easy to pass from MDX.
+
+This page uses `CodeBlock` to render every code sample. The component wraps Astro's syntax highlighter and adds an icon-only copy button in the top-right of the bounding rectangle.
+
+<CodeBlock
+	title="src/components/docs/CodeBlock.astro"
+	lang="astro"
+	code={String.raw`---
+import { Code } from 'astro:components';
+
+export interface Props {
+	title?: string;
+	code: string;
+	lang?: string;
+}
+
+const { title, code, lang = 'text' } = Astro.props;
+const codeText = code.trim();
+const copyLabel = title ? 'Copy ' + title : 'Copy code';
+---
+
+<figure class="ria-code-block ria-terminal" data-ria-code-block>
+	<figcaption>
+		<span>{title ?? lang.toUpperCase()}</span>
+		<button type="button" aria-label={copyLabel} title="Copy code" data-ria-copy-button>
+			<svg aria-hidden="true" viewBox="0 0 24 24">
+				<rect x="9" y="9" width="10" height="10" rx="2"></rect>
+				<path d="M5 15V7a2 2 0 0 1 2-2h8"></path>
+			</svg>
+		</button>
+	</figcaption>
+	<Code code={codeText} lang={lang} theme="github-dark" />
+</figure>
+
+<script>
+	function initCodeBlocks() {
+		for (const root of document.querySelectorAll('[data-ria-code-block]:not([data-copy-ready])')) {
+			root.setAttribute('data-copy-ready', 'true');
+			const button = root.querySelector('[data-ria-copy-button]');
+			const pre = root.querySelector('pre');
+			button?.addEventListener('click', () => {
+				navigator.clipboard?.writeText(pre?.innerText ?? '');
+			});
+		}
+	}
+
+	initCodeBlocks();
+	document.addEventListener('astro:page-load', initCodeBlocks);
+</script>`}
+/>
+
+Use the new component from any MDX page the same way:
+
+<CodeBlock
+	title="CodeBlock usage in MDX"
+	lang="mdx"
+	code={String.raw`import CodeBlock from '@components/docs/CodeBlock.astro';
+
+<CodeBlock
+	title="src/content/docs/guides/capture-checklist.mdx"
+	lang="mdx"
+	code="Paste the example page source here."
+/>`}
+/>
+
+## Nesting And Sections
+
+Starlight routes follow the path under `src/content/docs/`.
+
+- `src/content/docs/guides/capture-checklist.mdx` becomes `/guides/capture-checklist/`.
+- `src/content/docs/guides/data/capture-checklist.mdx` becomes `/guides/data/capture-checklist/`.
+- `src/content/docs/reference/use-components-in-a-new-doc.mdx` becomes `/reference/use-components-in-a-new-doc/`.
+
+The current sidebar autogenerates `guides/` and `reference/` from `astro.config.mjs`. To add a new top-level section, create a folder under `src/content/docs/` and add a matching sidebar group.
+
+<CodeBlock
+	title="astro.config.mjs sidebar section"
+	lang="js"
+	code={String.raw`sidebar: [
+	{
+		label: 'Guides',
+		items: [{ autogenerate: { directory: 'guides' } }],
+	},
+	{
+		label: 'Operations',
+		items: [{ autogenerate: { directory: 'operations' } }],
+	},
+	{
+		label: 'Reference',
+		items: [{ autogenerate: { directory: 'reference' } }],
+	},
+]`}
+/>
+
+After that, `src/content/docs/operations/runner-health.mdx` appears under Operations and builds as `/operations/runner-health/`.

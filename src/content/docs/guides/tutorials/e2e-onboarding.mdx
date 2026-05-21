@@ -1,0 +1,66 @@
+---
+title: End-to-End Onboarding
+description: Follow one RIA Hub path from source data to a running Screens app.
+sidebar:
+  order: 0
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import TerminalCard from '@components/docs/TerminalCard.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import CalloutPanel from '@components/docs/CalloutPanel.astro';
+import { buildOutcomeCards, prerequisites } from '@data/onboarding';
+
+## Workflow Map
+
+<PipelineGraph workflow="capture-to-screens" />
+
+## What You Will Build
+
+<InteractiveCards title="End-to-end outputs" cards={buildOutcomeCards} defaultSelected="dataset" />
+
+You will start with a recording or synthetic RF example, create a curated dataset, launch a training run, export a model artifact, package an application, and view it in Screens. The path mirrors the tested journey in the product: upload recording, curate, train, and export.
+
+## Prerequisites
+
+<CollapsibleList
+	title="Before you begin"
+	intro="Confirm access, storage, runner, and source-data assumptions before starting the walkthrough."
+	items={prerequisites}
+	variant="checklist"
+	interactive
+/>
+
+<TerminalCard
+	title="Local docs check"
+	command={`npm install
+npm run dev`}
+	result="Open http://localhost:4321 and keep the docs beside the RIA Hub instance."
+/>
+
+## Outcome
+
+Success means the Screens app is visible and has at least one panel showing inference or pipeline status.
+
+<p>
+	<StatusLight label="Training run" status="ready" detail="artifact exported" /> <StatusLight label="Screens app" status="running" detail="runtime controls available" />
+</p>
+
+<CalloutPanel title="Keep one artifact path visible" tone="info">
+	The model path selected after training is the same path the Application Composer and Screens packaging flow need later.
+</CalloutPanel>
+
+## Next steps
+
+Work through the tutorials in order to complete the full path:
+
+1. [Synthesis and Local Capture](/guides/tutorials/synthesis-and-local-capture/) — create source RF data
+2. [Creating Recordings](/guides/tutorials/create-recordings/) — generate SigMF recordings with the CLI
+3. [Curation and Labeling](/guides/tutorials/curation-and-labeling/) — build a labelled training dataset
+4. [Basic Training Materials](/guides/tutorials/basic-training-materials/) — understand dataset requirements
+5. [Inspect a Dataset](/guides/tutorials/inspect-a-dataset/) — verify dataset quality before training
+6. [Train a Model](/guides/tutorials/train-a-model/) — launch a Model Builder run
+7. [Package an Application](/guides/tutorials/package-an-application/) — connect artifacts into a deployable pipeline
+8. [Screens App](/guides/tutorials/screens-app/) — run the finished app

@@ -1,0 +1,15 @@
+---
+import PipelineGraphIsland from '../islands/PipelineGraphIsland.svelte';
+import { workflows, type WorkflowId } from '@data/docsWorkflows';
+
+export interface Props {
+	workflow: WorkflowId;
+	activeNode?: string;
+	showDetails?: boolean;
+}
+
+const { workflow, activeNode, showDetails = true } = Astro.props;
+const workflowData = workflows[workflow];
+---
+
+<PipelineGraphIsland workflow={workflowData} activeNode={activeNode} showDetails={showDetails} client:visible />

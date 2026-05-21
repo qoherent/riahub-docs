@@ -1,0 +1,53 @@
+---
+title: Screens App
+description: Run, inspect, and edit packaged RIA Hub applications in Screens.
+sidebar:
+  order: 8
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+
+export const screensCards = [
+	{ id: 'list', title: 'Screens list', eyebrow: 'apps', summary: 'Review app cards, status, and available actions.', details: 'The list is the entry point for packaged apps and runtime state.', accent: 'deploy' },
+	{ id: 'runtime', title: 'App runtime', eyebrow: 'control', summary: 'Start, stop, inspect status banners, and follow logs.', details: 'Runtime controls mirror manifest status and stream errors back to the user.', accent: 'runner' },
+	{ id: 'manifest', title: 'Manifest panels', eyebrow: 'view', summary: 'Display component grids and app panels produced by packaging.', details: 'A successful package exposes the expected panels and pipeline status.', accent: 'data' },
+	{ id: 'studio', title: 'Screens Studio', eyebrow: 'edit', summary: 'Edit layouts, add components, resolve conflicts, and save drafts.', details: 'Studio is used when the runtime view needs layout or component changes.', accent: 'train' },
+];
+
+## Screens Runtime
+
+<PipelineGraph workflow="capture-to-screens" activeNode="screens" />
+
+Screens shows packaged apps, app cards, status actions, runtime controls, manifest component grids, logs, start and stop lifecycle, and error states.
+
+<InteractiveCards title="Screens surfaces" cards={screensCards} defaultSelected="runtime" />
+
+<p>
+	<StatusLight label="Stopped" status="stopped" /> <StatusLight label="Starting" status="queued" /> <StatusLight label="Running" status="running" /> <StatusLight label="Error" status="error" />
+</p>
+
+## Logs and Troubleshooting
+
+<CollapsibleList
+	title="Screens checks"
+	items={[
+		{ title: 'Runtime does not start', body: 'Check app manifest validity, target profile, device settings, and model artifact paths.' },
+		{ title: 'Logs show missing props', body: 'Open Studio or the packaging page and fill required component properties.' },
+		{ title: 'Draft conflict appears', body: 'Review autosave and conflict state before overwriting another editor change.' },
+		{ title: 'Panel is absent', body: 'Confirm the manifest component grid includes the panel and the packaged app uses the expected runtime profile.' },
+	]}
+	variant="panel"
+	interactive
+/>
+
+## Studio
+
+Use Screens Studio when you need to edit layouts, add components, resolve conflicts, save drafts, or navigate missing properties. Studio should refine a valid packaged app, not replace the packaging validation flow.
+
+## Next steps
+
+- **Collect more data** — Run a new [Campaign Control](/guides/conductor/campaign-control/) session to extend your training set, then retrain and repackage.
+- **Review the full path** — Return to [End-to-End Onboarding](/guides/tutorials/e2e-onboarding/) for a summary of the complete workflow.

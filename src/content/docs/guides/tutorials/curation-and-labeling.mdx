@@ -1,0 +1,51 @@
+---
+title: Curation and Labeling
+description: Turn recordings or generated examples into a labeled training-ready dataset.
+sidebar:
+  order: 3
+---
+
+import PipelineGraph from '@components/docs/PipelineGraph.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import InteractiveCards from '@components/docs/InteractiveCards.astro';
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import { classBalanceExample } from '@data/trainingExamples';
+
+export const curationCards = [
+	{ id: 'filters', title: 'Filters', eyebrow: 'search', summary: 'Narrow candidate recordings by repository, branch, directory, and metadata.', details: 'Filtering keeps the wizard focused on examples that can actually support the target label.', accent: 'runner' },
+	{ id: 'slices', title: 'Slices', eyebrow: 'intervals', summary: 'Select useful signal intervals and avoid empty or ambiguous regions.', details: 'Slices are the units that become training examples.', accent: 'data' },
+	{ id: 'labels', title: 'Labels', eyebrow: 'classes', summary: 'Apply modulation, device, scenario, or other task labels.', details: 'The label set should match the model objective before training starts.', accent: 'train' },
+	{ id: 'validation', title: 'Validation', eyebrow: 'checks', summary: 'Confirm enough examples per class and consistent metadata.', details: 'Validation problems should be fixed before launching Model Builder.', accent: 'deploy' },
+];
+
+## Curator Workflow
+
+<PipelineGraph workflow="capture-to-screens" activeNode="curate" />
+
+Curator selects source repositories, branches, and directories, filters candidate recordings, slices useful intervals, applies labels or qualifiers, and tracks task progress.
+
+<CollapsibleList
+	title="Curator wizard steps"
+	items={[
+		{ title: 'Select source data', body: 'Pick the repository, branch, directory, and candidate recordings.' },
+		{ title: 'Filter candidates', body: 'Use search and advanced filters to remove irrelevant or incomplete recordings.' },
+		{ title: 'Create slices', body: 'Mark signal intervals that should become training examples.' },
+		{ title: 'Apply labels', body: 'Attach the target label and any useful qualifiers.' },
+		{ title: 'Review task progress', body: 'Wait for the curation task to finish before inspecting the dataset.' },
+	]}
+	variant="panel"
+	interactive
+/>
+
+<InteractiveCards title="Labeling decisions" cards={curationCards} defaultSelected="filters" />
+
+## Curation Checks
+
+<MetricGraph {...classBalanceExample} />
+
+Before training, inspect class counts, empty slices, metadata consistency, and the target label. For a simple modulation classifier, every slice should map to a modulation class that the selected template can consume.
+
+## Next steps
+
+- **Check training prerequisites** — [Basic Training Materials](/guides/tutorials/basic-training-materials/) explains what a trainable dataset needs before you launch a run.
+- **Inspect the dataset** — [Inspect a Dataset](/guides/tutorials/inspect-a-dataset/) walks through the Inspector workflow for verifying class balance and signal statistics.

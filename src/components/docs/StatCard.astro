@@ -1,0 +1,76 @@
+---
+export interface Props {
+	label: string;
+	value: string | number;
+	unit?: string;
+	detail?: string;
+	trend?: string;
+	accent?: 'data' | 'train' | 'deploy' | 'runner';
+}
+
+const { label, value, unit, detail, trend, accent = 'runner' } = Astro.props;
+---
+
+<section class="ria-stat-card ria-card" data-accent={accent} aria-label={`${label}: ${value}${unit ? ` ${unit}` : ''}`}>
+	<p class="ria-stat-card__label">{label}</p>
+	<div class="ria-stat-card__metric">
+		<span class="ria-stat-card__value">{value}</span>
+		{unit && <span class="ria-stat-card__unit">{unit}</span>}
+	</div>
+	{detail && <p class="ria-stat-card__detail">{detail}</p>}
+	{trend && <p class="ria-stat-card__trend">{trend}</p>}
+</section>
+
+<style>
+	.ria-stat-card {
+		display: flex;
+		min-height: 9rem;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.ria-stat-card__label,
+	.ria-stat-card__detail,
+	.ria-stat-card__trend {
+		margin: 0;
+	}
+
+	.ria-stat-card__label {
+		color: var(--ria-text-muted);
+		font: 700 0.72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.ria-stat-card__metric {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		margin: 0.85rem 0;
+		color: var(--ria-text-primary);
+	}
+
+	.ria-stat-card__value {
+		font-size: clamp(2rem, 7vw, 3.1rem);
+		font-weight: 750;
+		line-height: 1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.ria-stat-card__unit {
+		color: var(--ria-component-accent, var(--ria-primary-high));
+		font-weight: 700;
+	}
+
+	.ria-stat-card__detail {
+		color: var(--ria-text-secondary);
+		line-height: 1.45;
+	}
+
+	.ria-stat-card__trend {
+		margin-top: 0.65rem;
+		color: var(--ria-component-accent, var(--ria-primary-high));
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+</style>

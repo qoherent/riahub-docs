@@ -10,10 +10,12 @@ This site is the home for how-to guides, tutorials, and reference material writt
 ## What you'll find here
 
 - **Guides** — task-oriented walkthroughs covering everyday workflows (uploading data, managing repos, running pipelines, etc.).
-- **Reference** — detailed information about specific features, APIs, and configuration.
+- **Tutorials** — end-to-end walkthroughs for key workflows like training your first model or running a capture campaign.
 
 ## Where to next
 
-- New to the platform? Continue with the rest of the **Guides** section.
-- Looking for a specific feature? Jump to the **Reference** section.
+- New to the platform? Start with [Getting Started](/guides/getting-started/).
+- Want to capture RF data? See the [RIA Testbed Conductor](/guides/conductor/).
+- Ready to build a dataset? Visit the [Dataset Manager](/guides/dataset-manager/).
+- Want to train a model? See the [Model Builder](/guides/model-builder/).
 - Need to sign in or try things hands-on? Visit [riahub.ai](https://riahub.ai).

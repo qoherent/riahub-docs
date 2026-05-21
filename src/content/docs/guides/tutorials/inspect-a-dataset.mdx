@@ -1,0 +1,41 @@
+---
+title: Inspect a Dataset
+description: Assess dataset readiness before launching a training run.
+sidebar:
+  order: 5
+---
+
+import MetricGraph from '@components/docs/MetricGraph.astro';
+import StatusLight from '@components/docs/StatusLight.astro';
+import CollapsibleList from '@components/docs/CollapsibleList.astro';
+import { classBalanceExample, modelComparisonExample } from '@data/trainingExamples';
+
+## Inspector Workflow
+
+Inspector starts with dataset selection and empty-state troubleshooting, then moves into overview cards, balance analysis, per-class controls, stats, recommendations, and readiness checks.
+
+<p>
+	<StatusLight label="Labels" status="ready" detail="4 classes" /> <StatusLight label="Metadata" status="ready" detail="source OIDs present" /> <StatusLight label="Balance" status="warning" detail="review minority class" />
+</p>
+
+<MetricGraph {...classBalanceExample} />
+
+<MetricGraph {...modelComparisonExample} />
+
+## What to Fix Before Training
+
+<CollapsibleList
+	title="Inspector troubleshooting"
+	items={[
+		{ title: 'Imbalanced classes', body: 'Collect, synthesize, or curate more examples for minority classes before trusting comparisons.' },
+		{ title: 'Missing metadata', body: 'Check source OIDs, label names, qualifiers, sample shape, and split fields.' },
+		{ title: 'Too few examples', body: 'Avoid launching a run when each class has only a handful of slices unless the task is explicitly a smoke test.' },
+		{ title: 'Invalid split assumptions', body: 'Confirm that train and validation examples do not leak from the same source interval when independence matters.' },
+	]}
+	variant="panel"
+/>
+
+## Next steps
+
+- **Train the model** — When inspection passes, continue to [Train a Model](/guides/tutorials/train-a-model/) to configure and launch a Model Builder run.
+- **Re-curate if needed** — If issues are found, return to [Curation and Labeling](/guides/tutorials/curation-and-labeling/) to adjust the slicer or qualifier settings.
