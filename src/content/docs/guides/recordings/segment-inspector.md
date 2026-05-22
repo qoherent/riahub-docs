@@ -30,11 +30,25 @@ The status bar at the bottom shows your cursor position in seconds, the current 
 
 ## Marking keep and discard regions
 
-Switch between the three tool modes using the toolbar buttons:
+Switch between the three tool modes using the toolbar buttons at the top right of the spectrogram:
 
-- **Keep** — drag on the spectrogram to mark a region you want to export
-- **Discard** — drag to cut a hole out of a keep region (useful for removing interference)
-- **Pan** — drag to scroll without creating a region
+| Button | Mode | What it does |
+|--------|------|--------------|
+| **Keep** | Keep | Drag on the spectrogram to mark a region you want to export — rendered as a teal/green overlay |
+| **Discard** | Discard | Drag to cut a hole out of a keep region — rendered as a red overlay; useful for removing brief interference or squelch gaps |
+| **Pan** | Pan | Drag to scroll left/right without creating a region |
+
+![Recording Inspector showing teal keep regions and a red discard region on the spectrogram, with KEEP and DISCARD timeline tracks below](/ria/screenshots/recording-inspector-selections.png)
+
+The screenshot above shows two keep regions (teal) spanning most of the recording, with a discard region (red) punched through a portion of the first keep window.
+
+### How to mark a region
+
+1. Select **Keep** or **Discard** from the toolbar.
+2. Click and drag horizontally across the spectrogram. Release to commit the region.
+3. The region appears immediately as a coloured overlay and is added to the timeline track below.
+
+> **Tip:** Zoom in first (use **+** or scroll) to place boundaries precisely, then zoom back out with **Fit** to review the full recording.
 
 ### How regions interact
 
@@ -74,9 +88,17 @@ The **Export Preview** panel updates automatically as you mark regions. It shows
 
 Set the **Repository**, **Branch**, and **Folder** for the output files. Exported segments are committed as SigMF file pairs (`.sigmf-data` + `.sigmf-meta`) to that location.
 
-## Running the export
+## Saving and running the export
 
-Click **Export** to queue the job. A task ID is returned immediately and the export runs in the background. Poll the task status via the RIA Hub task panel, or check the destination repository once the job completes.
+### Save Manifest
+
+Click **Save Manifest** to persist your keep/discard selections without triggering an export. The manifest is stored against the recording's OID and is restored the next time you open the same recording in the inspector.
+
+### Edit & Save
+
+Click **Edit & Save (N seg)** to save the manifest and immediately queue the export job. The segment count shown in the button (e.g. *77 seg*) reflects the current Export Preview — it updates live as you adjust regions or export settings.
+
+A task ID is returned immediately and the export runs in the background. Poll the task status via the RIA Hub task panel, or check the destination repository once the job completes.
 
 Exported segments appear in the Library automatically once they are pushed to the destination branch.
 
