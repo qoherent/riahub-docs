@@ -3,17 +3,116 @@ title: Who Is RIA Hub For?
 description: Learn which teams and workflows RIA Hub is designed for.
 ---
 
+<style>{`
+  .target-user {
+    border-left: 3px solid var(--role-color);
+    padding-left: 0.75rem;
+    margin: 0.55rem 0;
+    width: fit-content;
+    border-radius: 8px;
+    transition:
+      background 0.25s ease,
+      padding 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .target-user summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 1.14rem;
+    font-weight: 500;
+    color: light-dark(black, white);
+    transition: transform 0.25s ease;
+  }
+
+  .target-user summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .target-user summary::marker {
+    content: "";
+  }
+
+  .target-user:hover .role-title {
+    font-weight: 750;
+  }
+
+  .target-user[open] .role-title {
+    font-weight: 750;
+  }
+
+  .target-user:hover:not([open]) summary {
+    transform: translateX(2px);
+  }
+
+  .target-user[open] {
+    background: color-mix(in srgb, var(--role-color) 12%, transparent);
+    padding: 0.7rem 1rem;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--role-color) 20%, transparent),
+      0 6px 20px color-mix(in srgb, var(--role-color) 15%, transparent);
+  }
+
+  .target-user p {
+    margin: 0.55rem 0 0.15rem 0;
+  }
+
+  .role-purple {
+    --role-color: #8b5cf6;
+  }
+
+  .role-cyan {
+    --role-color: #06b6d4;
+  }
+
+  .role-blue {
+    --role-color: #3b82f6;
+  }
+
+  .role-orange {
+    --role-color: #f59e0b;
+  }
+
+  .role-teal {
+    --role-color: #14b8a6;
+  }
+
+  .role-pink {
+    --role-color: #ec4899;
+  }
+
+  :global(html.dark) .role-purple {
+    --role-color: #a78bfa;
+  }
+
+  :global(html.dark) .role-cyan {
+    --role-color: #22d3ee;
+  }
+
+  :global(html.dark) .role-blue {
+    --role-color: #60a5fa;
+  }
+
+  :global(html.dark) .role-orange {
+    --role-color: #fbbf24;
+  }
+
+  :global(html.dark) .role-teal {
+    --role-color: #2dd4bf;
+  }
+
+  :global(html.dark) .role-pink {
+    --role-color: #f472b6;
+  }
+`}</style>
+
 RIA Hub is designed for AI-powered radio and Software-Defined Radio (SDR) workflows.
 
-<h2
-  style={{
-    color: 'light-dark(black, white)'
-  }}
->
+<h2 style={{ color: 'light-dark(black, white)' }}>
   Common Use Cases
 </h2>
 
-- organize and manage RF datasets
+- organize and manage Radio Frequency (RF) datasets
 - train AI models for radio signals
 - prototype SDR applications
 - test signal-processing workflows
@@ -22,20 +121,51 @@ RIA Hub is designed for AI-powered radio and Software-Defined Radio (SDR) workfl
 
 <h2
   style={{
-    color: 'light-dark(black, white)'
+    color: 'light-dark(black, white)',
+    marginBottom: '1.2rem'
   }}
 >
   Target Users
 </h2>
 
-- **SDR Engineers** — Build and optimize intelligent radio applications using integrated dataset, model, and deployment workflows.
+<details class="target-user role-purple">
+  <summary><span class="role-title">SDR Engineers</span></summary>
+  <p>
+    Build and optimize intelligent radio applications using integrated dataset, model, and deployment workflows.
+  </p>
+</details>
 
-- **Wireless AI Researchers** — Accelerate experimentation for RF machine learning, spectrum analysis, and signal intelligence research.
+<details class="target-user role-cyan">
+  <summary><span class="role-title">Wireless AI Researchers</span></summary>
+  <p>
+    Accelerate experimentation for Radio Frequency (RF) machine learning, spectrum analysis, and signal intelligence research.
+  </p>
+</details>
 
-- **Telecom and OpenRAN Teams** — Train and deploy AI models for software-defined radio and next-generation wireless infrastructure.
+<details class="target-user role-blue">
+  <summary><span class="role-title">Telecom and OpenRAN Teams</span></summary>
+  <p>
+    Train and deploy AI models for software-defined radio and next-generation wireless infrastructure.
+  </p>
+</details>
 
-- **Defense and Spectrum Operations** — Prototype spectrum-awareness and intelligent sensing applications for operational environments.
+<details class="target-user role-orange">
+  <summary><span class="role-title">Defense and Spectrum Operations</span></summary>
+  <p>
+    Prototype spectrum-awareness and intelligent sensing applications for operational environments.
+  </p>
+</details>
 
-- **Universities and Research Labs** — Standardize collaborative RF AI experimentation with reusable workflows and datasets.
+<details class="target-user role-teal">
+  <summary><span class="role-title">Universities and Research Labs</span></summary>
+  <p>
+    Standardize collaborative RF AI experimentation with reusable workflows and datasets.
+  </p>
+</details>
 
-- **Embedded Systems Developers** — Develop and test intelligent radio applications for embedded and edge computing environments.
+<details class="target-user role-pink">
+  <summary><span class="role-title">Embedded Systems Developers</span></summary>
+  <p>
+    Develop and test intelligent radio applications for embedded and edge computing environments.
+  </p>
+</details>
