@@ -36,6 +36,7 @@ export default defineConfig({
 					label: 'Getting Started',
 					items: [
 						{ label: 'Introduction', slug: 'guides/introduction' },
+						{ label: 'Who Is RIA Hub For?', slug: 'guides/target-users' },
 						{ label: 'Getting Started', slug: 'guides/getting-started' },
 					],
 				},
