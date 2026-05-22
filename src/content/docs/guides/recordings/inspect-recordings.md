@@ -96,5 +96,6 @@ Before including a recording in a curation run:
 
 ## Next steps
 
-- **Label recordings** — Once quality is confirmed, add or verify signal labels in [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/).
+- **Slice and export segments** — Once quality is confirmed, use the [Recording Inspector](/guides/recordings/segment-inspector/) to mark keep/discard regions on the spectrogram and export clean segments to a repository.
+- **Label recordings** — Add or verify signal labels in [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/).
 - **Curate a dataset** — Take reviewed recordings to the [Curator](/guides/dataset-manager/curation/) to slice and package them.

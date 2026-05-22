@@ -11,13 +11,16 @@ The **Recordings** section is where raw RF signal files live before they become 
 |------|---------------|
 | [Inspecting Recordings](/guides/recordings/inspect-recordings/) | Use the recording inspector's visualisation tabs (Spectrogram, Constellation, PSD, Time Series) to assess signal quality before curation |
 | [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/) | Understand automatic labels from Campaign Control, and manually annotate SigMF metadata for uncontrolled captures |
+| [Slicing and Exporting Segments](/guides/recordings/segment-inspector/) | Mark keep/discard regions on the spectrogram, preview the resulting segments, and export them to a repository |
 
 ## How recordings fit into the Dataset Manager workflow
 
 ```
 Capture / Synthesize  →  Repository (LFS)  →  Library index
                                                      ↓
-                                             Review & label
+                                             Inspect signal quality
+                                                     ↓
+                                       Review & label  ←→  Slice segments (Recording Inspector)
                                                      ↓
                                              Curator (select recordings)
                                                      ↓
@@ -104,6 +107,7 @@ When you open the Curator and reach **Step 2 — Select recordings**, the record
 ## Next steps
 
 - **Inspect recordings** — [Inspecting Recordings](/guides/recordings/inspect-recordings/) covers the visualisation tabs and what to look for in each.
+- **Slice and export segments** — [Slicing and Exporting Segments](/guides/recordings/segment-inspector/) covers marking keep/discard regions on the spectrogram and exporting clean segments.
 - **Review and label recordings** — [Reviewing and Labelling Recordings](/guides/recordings/review-and-label/) covers automatic labels from Campaign Control and manual SigMF annotation.
 - **Curate a dataset** — When recordings are reviewed and labelled, take them to the [Curator](/guides/dataset-manager/curation/) to slice, qualify, and package them into a training-ready HDF5 file.
 - **Upload recordings** — If your recordings aren't in RIA Hub yet, see [Working with Git LFS](/guides/platform/lfs-and-uploads/) for upload options and size limits.
