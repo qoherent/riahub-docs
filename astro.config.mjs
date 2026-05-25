@@ -64,6 +64,28 @@ export default defineConfig({
 					label: 'RIA Testbed Conductor',
 					items: [{ autogenerate: { directory: 'guides/conductor' } }],
 				},
+				{
+					label: 'RIA Toolkit OSS',
+					items: [
+						{ label: 'Overview', slug: 'ria-toolkit-oss' },
+						{
+							label: 'Introduction',
+							items: [{ autogenerate: { directory: 'ria-toolkit-oss/introduction' } }],
+						},
+						{
+							label: 'SDR Guides',
+							items: [{ autogenerate: { directory: 'ria-toolkit-oss/sdr-guides' } }],
+						},
+						{
+							label: 'Examples',
+							items: [{ autogenerate: { directory: 'ria-toolkit-oss/examples' } }],
+						},
+						{
+							label: 'API Reference',
+							items: [{ autogenerate: { directory: 'ria-toolkit-oss/api-reference' } }],
+						},
+					],
+				},
 			],
 		}),
 	],
