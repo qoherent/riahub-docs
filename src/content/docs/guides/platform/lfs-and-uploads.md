@@ -130,6 +130,89 @@ To clone without downloading LFS content (useful when you only need the repo str
 GIT_LFS_SKIP_SMUDGE=1 git clone https://riahub.ai/owner/repo-name
 ```
 
+### If you cloned without Git LFS installed
+
+If Git LFS was not installed when you cloned, git will have checked out the raw pointer files instead of the actual content. You'll see small text files where recordings or model weights should be, typically starting with:
+
+```
+version https://git-lfs.github.com/spec/v1
+oid sha256:...
+```
+
+To fix this without re-cloning:
+
+```bash
+# Install Git LFS (see above), then:
+git lfs install
+git lfs fetch --all
+git lfs checkout
+```
+
+This fetches all LFS objects for the current branch and replaces the pointer files with the real content.
+
+---
+
+## RIA Hub Project type
+
+When creating a new repository you will see a **RIA Hub Project** checkbox. Enabling it does two things:
+
+1. Seeds the repository with a `.gitattributes` file pre-configured for common RIA file types (`.sigmf-data`, `.npy`, `.h5`, model weights, etc.) so LFS tracking is active from the very first push.
+2. Enables LFS-aware features across the platform — the Library, the recording viewer, and the mismatch warning described below.
+
+If you create a repository without this option and later decide you need it, you can enable it under **Settings → Danger Zone → Mark as RIA Hub Project**, or simply add a `.gitattributes` file manually (see above).
+
+---
+
+## Setting up a local repo with `ria setup-repo`
+
+The `ria` CLI (part of the [ria-toolkit](https://github.com/qoherent/ria-toolkit-oss) package) provides a one-shot command to configure a local directory as a RIA Hub Project repo:
+
+```bash
+pip install ria-toolkit-oss   # if not already installed
+
+# In an existing git repo directory:
+ria setup-repo
+
+# Or point at a specific path and set the remote in one step:
+ria setup-repo --path /path/to/repo --remote https://riahub.ai/owner/repo-name
+```
+
+This command:
+- Verifies Git LFS is installed (`git lfs install` is run if needed)
+- Writes the standard RIA LFS tracking rules into `.gitattributes` (skipping any patterns already present)
+- Optionally adds the RIA Hub remote URL as `origin`
+
+Run `ria setup-repo --help` for the full list of options.
+
+---
+
+## LFS mismatch warning
+
+If you push binary files without LFS tracking enabled, RIA Hub detects them and shows a warning banner the next time you open the repository in the browser:
+
+> **These files were pushed without LFS tracking**
+
+The banner lists the affected files and offers three actions:
+
+| Action | What it does |
+|--------|-------------|
+| **Move existing files to LFS** | Creates a new commit on the current branch converting the listed files to LFS pointers. Nothing to run locally — RIA Hub handles it server-side. |
+| **Add to .gitattributes** | Adds the file extensions to `.gitattributes` so future pushes are tracked. Existing history is unchanged. |
+| **Dismiss / Don't ask again** | Clears the warning. "Don't ask again" also suppresses it for this repository in your browser. |
+
+:::note
+"Move existing files to LFS" only promotes the specific files listed — files already in older commits are not rewritten. To rewrite full history, use `git lfs migrate import` locally and force-push.
+:::
+
+You will also see a warning in your terminal during `git push` if files were pushed without LFS tracking:
+
+```
+remote: Warning: the following files were pushed without LFS tracking:
+remote:   recordings/capture-001.sigmf-data
+remote: These files will not be visible as RIA Hub assets.
+remote: Open the repository and select "Move existing files to LFS" to promote them.
+```
+
 ---
 
 ## Pushing large files from your local machine
