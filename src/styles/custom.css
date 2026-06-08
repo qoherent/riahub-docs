@@ -78,7 +78,7 @@
 	}
 
 	:root[data-has-sidebar][data-has-toc] .main-pane .sl-container {
-		transform: translateX(1rem);
+		transform: translateX(2rem);
 	}
 
 	:root[data-has-sidebar][data-has-toc] .right-sidebar-panel .sl-container {
