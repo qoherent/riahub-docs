@@ -2,6 +2,7 @@
 
 ## 2026-06-08
 
+- Reduced the desktop table-of-contents footprint by limiting it to top-level sections, softening its visual treatment, and allowing the documentation column to grow slightly wider.
 - Reduced the wide-desktop gap between the Starlight navigation sidebar and documentation content while preserving the existing reading width and responsive shell behavior.
 
 ## 2026-05-12

@@ -17,6 +17,10 @@ export default defineConfig({
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/qoherent/riahub-docs' }],
 			customCss: ['./src/styles/custom.css', './src/styles/ria-docs.css'],
+			tableOfContents: {
+				minHeadingLevel: 2,
+				maxHeadingLevel: 2,
+			},
 			expressiveCode: {
 				themes: ['github-dark', 'github-light'],
 				styleOverrides: {
