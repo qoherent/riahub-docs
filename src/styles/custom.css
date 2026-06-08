@@ -51,6 +51,20 @@
 }
 
 /* ============================================================
+   Docs shell — desktop content alignment
+   ============================================================ */
+
+/* Starlight right-aligns the article inside the main pane when both the
+   navigation sidebar and page TOC are present. On wide screens that leaves a
+   large gutter between the nav and the reading column, so align the content
+   toward the sidebar while preserving Starlight's content width and grid. */
+@media (min-width: 72rem) {
+	:root[data-has-sidebar][data-has-toc] .main-pane {
+		--sl-content-margin-inline: 0 auto;
+	}
+}
+
+/* ============================================================
    Theme-select button — visible hover state (both modes)
    ============================================================ */
 

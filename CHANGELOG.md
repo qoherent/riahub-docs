@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-06-08
+
+- Reduced the wide-desktop gap between the Starlight navigation sidebar and documentation content while preserving the existing reading width and responsive shell behavior.
+
 ## 2026-05-12
 
 - Added Svelte support behind Astro wrappers, TypeScript path aliases, Starlight custom CSS, and docs-owned RIA Hub assets under `public/ria/`.
