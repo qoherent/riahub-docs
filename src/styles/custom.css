@@ -54,17 +54,31 @@
    Docs shell — desktop content alignment
    ============================================================ */
 
-/* Starlight right-aligns the article inside the main pane when both the
-   navigation sidebar and page TOC are present. On wide screens that leaves a
-   large gutter between the nav and the reading column, so align the content
-   toward the sidebar while preserving Starlight's content width and grid. */
+/* Starlight's two-sidebar desktop layout lets the right TOC rail absorb a
+   large share of wide viewports. Keep both sidebars visually similar and give
+   the documentation column most of the available space. */
 @media (min-width: 72rem) {
 	:root[data-has-sidebar][data-has-toc] {
-		--sl-content-width: 48rem;
+		--sl-content-width: 60rem;
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-container,
+	:root[data-has-sidebar][data-has-toc] .right-sidebar {
+		width: var(--sl-sidebar-width);
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-container {
+		flex: 0 0 var(--sl-sidebar-width);
 	}
 
 	:root[data-has-sidebar][data-has-toc] .main-pane {
 		--sl-content-margin-inline: 0 auto;
+		flex: 1 1 auto;
+		width: calc(100% - var(--sl-sidebar-width));
+	}
+
+	:root[data-has-sidebar][data-has-toc] .main-pane .sl-container {
+		transform: translateX(1rem);
 	}
 
 	:root[data-has-sidebar][data-has-toc] .right-sidebar-panel .sl-container {
