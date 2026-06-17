@@ -3,6 +3,7 @@ title: Training Dashboard
 description: Trigger and monitor zone fingerprinting model training workflows from the RIA Testbed Conductor Training Dashboard.
 sidebar:
   order: 2
+  label: Fingerprinting Trainer
 ---
 
 The **Training Dashboard** lets you kick off and monitor model training runs directly from RIA Hub, without leaving the browser. Training is executed as a **GitHub Actions workflow** in a repository you control — the dashboard handles triggering the run, streaming back live job status, and surfacing model performance metrics once training completes.
