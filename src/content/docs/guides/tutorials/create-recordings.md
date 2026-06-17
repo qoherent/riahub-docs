@@ -7,8 +7,8 @@ sidebar:
 
 Before you can curate a dataset or train a model, you need recordings in the RIA Hub Library. This guide covers the two ways to produce SigMF recordings using the **RIA Toolkit** command-line interface:
 
-- **Synthetic generation** — produce mathematically clean IQ signals with known labels and controlled SNR, using `ria synth`
-- **Live capture** — record real RF signals from a connected SDR device, using `ria capture`
+- **Synthetic generation**: produce mathematically clean IQ signals with known labels and controlled SNR, using `ria synth`
+- **Live capture**: record real RF signals from a connected SDR device, using `ria capture`
 
 In both cases the output is a SigMF file pair (`.sigmf-data` + `.sigmf-meta`) that you push to a RIA Hub repository with Git LFS.
 
@@ -25,7 +25,7 @@ If you want a fully in-browser, no-CLI workflow, the **Dataset Manager → Gener
 - A RIA Hub repository with Git LFS initialised — see [Working with Git LFS](/guides/platform/lfs-and-uploads/)
 - For live capture: one supported SDR device connected (PlutoSDR, HackRF One, BladeRF, USRP, RTL-SDR, or ThinkRF)
 
-## Part 1 — Synthetic generation with `ria synth`
+## Part 1: Synthetic generation with `ria synth`
 
 `ria synth` (also callable as `ria generate`) generates modulated IQ signals and writes them to SigMF files. The signal parameters are exact and reproducible, making synthetic recordings ideal for building a first labelled dataset.
 
@@ -69,7 +69,7 @@ Modulation-specific commands also accept:
 | `ook` | `--symbol-rate -r` |
 | `chirp` | `--bandwidth -b` (required), `--period -p` (required), `--type` (`up`/`down`/`up_down`) |
 
-### Example — modulation recognition dataset
+### Example: modulation recognition dataset
 
 The following commands produce three signal classes (QPSK, OOK, noise) that you can use as a starting point for a modulation recognition classifier. Run each block from your repository root.
 
@@ -131,7 +131,7 @@ The `-m label=<value>` flag writes `label` into the SigMF `global` block. This i
 Add `--iq-amp-imbalance` and `--iq-phase-imbalance` to simulate receiver hardware imperfections, or `--multipath-paths` and `--multipath-max-delay` for fading channels. These make the dataset harder but produce more robust models.
 :::
 
-## Part 2 — Live SDR capture with `ria capture`
+## Part 2: Live SDR capture with `ria capture`
 
 `ria capture` streams IQ samples from a connected SDR device and writes a SigMF file. The toolkit handles device initialisation, sample streaming, and metadata creation automatically.
 
@@ -186,7 +186,7 @@ ria capture --device pluto --ident 192.168.2.2 --frequency 915e6 --sample-rate 1
 
 For a multi-step campaign (changing transmitter state between captures), see [Campaign Control](/guides/conductor/campaign-control/).
 
-## Part 3 — Pushing recordings to RIA Hub
+## Part 3: Pushing recordings to RIA Hub
 
 ### 1. Initialise Git LFS for SigMF files
 

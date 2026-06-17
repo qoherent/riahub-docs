@@ -41,28 +41,39 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Reference',
+					items: [
+						{
+							label: 'Platform',
+							items: [{ autogenerate: { directory: 'guides/platform' } }],
+						},
+						{
+							label: 'RIA Testbed Conductor',
+							items: [{ autogenerate: { directory: 'guides/conductor' } }],
+						},
+					],
+				},
+				{
 					label: 'Tutorials',
-					items: [{ autogenerate: { directory: 'guides/tutorials' } }],
-				},
-				{
-					label: 'Platform',
-					items: [{ autogenerate: { directory: 'guides/platform' } }],
-				},
-				{
-					label: 'Dataset Manager',
-					items: [{ autogenerate: { directory: 'guides/dataset-manager' } }],
-				},
-				{
-					label: 'Recordings',
-					items: [{ autogenerate: { directory: 'guides/recordings' } }],
-				},
-				{
-					label: 'Model Builder',
-					items: [{ autogenerate: { directory: 'guides/model-builder' } }],
-				},
-				{
-					label: 'RIA Testbed Conductor',
-					items: [{ autogenerate: { directory: 'guides/conductor' } }],
+					items: [
+						{ label: 'End-to-End Onboarding', slug: 'guides/tutorials/e2e-onboarding' },
+						{
+							label: 'Recording',
+							items: [{ autogenerate: { directory: 'guides/recordings' } }],
+						},
+						{
+							label: 'Dataset Manager',
+							items: [{ autogenerate: { directory: 'guides/dataset-manager' } }],
+						},
+						{
+							label: 'Model Builder',
+							items: [{ autogenerate: { directory: 'guides/model-builder' } }],
+						},
+						{
+							label: 'Application Packager',
+							items: [{ autogenerate: { directory: 'guides/application-packager' } }],
+						},
+					],
 				},
 				{
 					label: 'RIA Toolkit OSS',
@@ -86,6 +97,21 @@ export default defineConfig({
 						},
 					],
 				},
+				/*
+				{
+					label: 'Slop Reference',
+					items: [
+						{ label: 'Basic Training Materials', slug: 'guides/tutorials/basic-training-materials' },
+						{ label: 'Creating Recordings', slug: 'guides/tutorials/create-recordings' },
+						{ label: 'Curation and Labeling', slug: 'guides/tutorials/curation-and-labeling' },
+						{ label: 'Inspect a Dataset', slug: 'guides/tutorials/inspect-a-dataset' },
+						{ label: 'Package an Application', slug: 'guides/tutorials/package-an-application' },
+						{ label: 'Screens App', slug: 'guides/tutorials/screens-app' },
+						{ label: 'Synthesis and Local Capture', slug: 'guides/tutorials/synthesis-and-local-capture' },
+						{ label: 'Train a Model', slug: 'guides/tutorials/train-a-model' },
+					],
+				},
+				*/
 			],
 		}),
 	],
