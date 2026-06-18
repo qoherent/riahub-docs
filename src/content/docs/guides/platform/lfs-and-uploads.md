@@ -163,7 +163,7 @@ If you create a repository without this option and later decide you need it, you
 
 ---
 
-## Setting up a local repo with `ria setup-repo`
+## Setting up a local repo with `ria setup_repo`
 
 The `ria` CLI (part of the [ria-toolkit](https://github.com/qoherent/ria-toolkit-oss) package) provides a one-shot command to configure a local directory as a RIA Hub Project repo:
 
@@ -171,10 +171,10 @@ The `ria` CLI (part of the [ria-toolkit](https://github.com/qoherent/ria-toolkit
 pip install ria-toolkit-oss   # if not already installed
 
 # In an existing git repo directory:
-ria setup-repo
+ria setup_repo
 
 # Or point at a specific path and set the remote in one step:
-ria setup-repo --path /path/to/repo --remote https://riahub.ai/owner/repo-name
+ria setup_repo --path /path/to/repo --remote https://riahub.ai/owner/repo-name
 ```
 
 This command:
@@ -182,7 +182,7 @@ This command:
 - Writes the standard RIA LFS tracking rules into `.gitattributes` (skipping any patterns already present)
 - Optionally adds the RIA Hub remote URL as `origin`
 
-Run `ria setup-repo --help` for the full list of options.
+Run `ria setup_repo --help` for the full list of options.
 
 ---
 
