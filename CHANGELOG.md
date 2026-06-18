@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-06-08
+
+- Nudged the desktop documentation content further right to better balance the space between the navigation sidebar and table of contents.
+- Rebalanced the desktop docs shell so the left navigation and right table of contents have similar width while the main content column occupies more of the page.
+- Reduced the wide-desktop gap between the Starlight navigation sidebar and documentation content while preserving the existing reading width and responsive shell behavior.
+
 ## 2026-05-12
 
 - Added Svelte support behind Astro wrappers, TypeScript path aliases, Starlight custom CSS, and docs-owned RIA Hub assets under `public/ria/`.

@@ -51,6 +51,51 @@
 }
 
 /* ============================================================
+   Docs shell — desktop content alignment
+   ============================================================ */
+
+/* Starlight's two-sidebar desktop layout lets the right TOC rail absorb a
+   large share of wide viewports. Keep both sidebars visually similar and give
+   the documentation column most of the available space. */
+@media (min-width: 72rem) {
+	:root[data-has-sidebar][data-has-toc] {
+		--sl-content-width: 60rem;
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-container,
+	:root[data-has-sidebar][data-has-toc] .right-sidebar {
+		width: var(--sl-sidebar-width);
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-container {
+		flex: 0 0 var(--sl-sidebar-width);
+	}
+
+	:root[data-has-sidebar][data-has-toc] .main-pane {
+		--sl-content-margin-inline: 0 auto;
+		flex: 1 1 auto;
+		width: calc(100% - var(--sl-sidebar-width));
+	}
+
+	:root[data-has-sidebar][data-has-toc] .main-pane .sl-container {
+		transform: translateX(2rem);
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-panel .sl-container {
+		width: min(15rem, calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x)));
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-panel h2 {
+		color: var(--sl-color-gray-2);
+		font-size: var(--sl-text-sm);
+	}
+
+	:root[data-has-sidebar][data-has-toc] .right-sidebar-panel a {
+		color: var(--sl-color-gray-4);
+	}
+}
+
+/* ============================================================
    Theme-select button — visible hover state (both modes)
    ============================================================ */
 
